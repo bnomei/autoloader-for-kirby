@@ -37,7 +37,7 @@ Add the autoloader for each extension type you want once and it will register al
 
 #### Roadmap
 
-- [ ] translastions
+- [ ] translations
 
 **/site/plugins/example/index.php**
 ```php
