@@ -8,6 +8,7 @@ class ComposerStaticInit1ac0a0189216f01acd281a1ae90a9487
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        '04c6c5c2f7095ccf6c481d3e53e1776f' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
         '8d45f37583b137896354a61f45ecc27e' => __DIR__ . '/../..' . '/helpers.php',
     );
 

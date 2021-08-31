@@ -24,24 +24,35 @@ composer require bnomei/autoloader-for-kirby
 
 ### Autoloading of extensions
 
-Add the autoloader for each extension type you want once and it will register all files in subfolders correctly. The following extensions can be autoloaded:
+Add the autoloader for each extension type you want once and it will register all files in subfolders correctly.
 
 #### Supported Extensions
 
-- [x] blueprints
-- [x] collections
-- [x] controllers
-- [x] models (with registering the class)
-- [x] snippets
-- [x] templates
+The following extensions can be autoloaded:
 
-#### Roadmap
+- [x] blueprints (php or yml)
+- [x] collections (php)
+- [x] controllers (php)
+- [x] models (php, with registering of the class)
+- [x] snippets (php)
+- [x] templates (php)
+- [X] translations (php or yml or json)
 
-- [ ] translations
+> NOTE: Loading translations from yaml or json files is added by this package and not originally part of kirby core
 
 **/site/plugins/example/index.php**
 ```php
 <?php
+
+// optionally change some settings
+/*
+autoloader(__DIR__, [
+    'templates' => [
+        'folder' => 'temblades',
+        'name' => '*.blade.php',
+    ],
+]);
+*/
 
 Kirby::plugin('bnomei/example', [
     'options' => [
@@ -56,6 +67,8 @@ Kirby::plugin('bnomei/example', [
     // other extensions
 ]);
 ```
+
+> Autoloader [Settings](https://github.com/bnomei/autoloader-for-kirby/blob/main/classes/Autoloader.php#L27)
 
 ## Disclaimer
 

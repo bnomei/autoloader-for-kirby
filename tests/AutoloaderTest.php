@@ -104,4 +104,15 @@ final class AutoloaderTest extends TestCase
         $this->assertArrayNotHasKey('default.blade', $templates);
         $this->assertFileExists($templates['default']);
     }
+
+    public function testTranslations()
+    {
+        $autoloader = autoloader($this->dir);
+        $translations = $autoloader->translations();
+
+        $this->assertIsArray($translations);
+        $this->assertEquals('Deutsch', $translations['de']['lang']);
+        $this->assertEquals('English', $translations['en']['lang']);
+        $this->assertEquals('日本語', $translations['jp']['lang']);
+    }
 }

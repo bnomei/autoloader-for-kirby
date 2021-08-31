@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bnomei;
 
+use Spyc;
 use Symfony\Component\Finder\Finder;
 
 final class Autoloader
@@ -12,6 +13,7 @@ final class Autoloader
     public const PHP = '/^[\w\d\-\_]+\.php$/';
     public const YML = '/^[\w\d\-\_]+\.yml$/';
     public const PHP_OR_YML = '/^[\w\d\-\_]+\.(php|yml)$/';
+    public const PHP_OR_YML_OR_JSON = '/^[\w\d\-\_]+\.(php|yml|json)$/';
 
     /** @var self */
     private static $singleton;
@@ -61,14 +63,12 @@ final class Autoloader
                 'key' => 'filename',
                 'require' => false,
             ],
-            /* TODO: translations
         	'translations' => [
         		'folder' => 'translations',
-        		'name' => static::PHP,
-        		'key' => 'relativepath',
+        		'name' => static::PHP_OR_YML_OR_JSON,
+        		'key' => 'filename',
         		'require' => true,
         	],
-        	*/
         ], $options);
 
         if (!array_key_exists('dir', $this->options)) {
@@ -130,6 +130,14 @@ final class Autoloader
             } elseif ($options['require'] && $extension && strtolower($extension) === 'php') {
                 $path = $file->getPathname();
                 $this->registry[$type][$key] = require_once $path;
+            } elseif ($options['require'] && $extension && strtolower($extension) === 'json') {
+                $path = $file->getPathname();
+                $this->registry[$type][$key] = json_decode(file_get_contents($path), true);
+            } elseif ($options['require'] && $extension && strtolower($extension) === 'yml') {
+                $path = $file->getPathname();
+                 // remove BOM
+                $yaml = str_replace("\xEF\xBB\xBF", '', file_get_contents($path));
+                $this->registry[$type][$key] = Spyc::YAMLLoadString($yaml);
             } else {
                 $this->registry[$type][$key] = $file->getRealPath();
             }
@@ -166,6 +174,11 @@ final class Autoloader
     public function templates(): array
     {
         return $this->registry('templates');
+    }
+
+    public function translations(): array
+    {
+        return $this->registry('translations');
     }
 
     public static function singleton(array $options = []): self
