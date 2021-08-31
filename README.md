@@ -17,7 +17,7 @@ This package is free but if you use it in a commercial project please consider t
 ## Installation
 
 ```bash
-composer require bnomei/kirby3-autoloader-for-kirby
+composer require bnomei/autoloader-for-kirby
 ```
 
 > This is NOT a kirby plugin. This is a composer package because that actually makes it easier to setup and does not mess with the loading order of extensions.
