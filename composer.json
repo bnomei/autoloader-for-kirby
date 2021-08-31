@@ -1,0 +1,74 @@
+{
+    "name": "bnomei/autoloader-for-kirby",
+    "type": "project",
+    "version": "1.0.0",
+    "license": "MIT",
+    "description": "Helper Class to automatically load various Kirby extensions in a plugin",
+    "authors": [
+        {
+            "name": "Bruno Meilick",
+            "email": "b@bnomei.com"
+        }
+    ],
+    "keywords": [
+        "kirby3",
+        "kirby3-cms",
+        "extension",
+        "extensions",
+        "autoload",
+        "autoloader",
+        "register",
+        "registry",
+        "blueprints",
+        "classes",
+        "collections",
+        "controllers",
+        "snippets",
+        "templates",
+        "routes"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Bnomei\\": "classes/"
+        },
+        "files": [
+            "helpers.php"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "require": {
+        "php": ">=7.3.0",
+        "symfony/finder": "^4.4"
+    },
+    "require-dev": {
+        "getkirby/cms": "^3.5",
+        "php-coveralls/php-coveralls": "^2.4",
+        "phpunit/phpunit": "^9.5"
+    },
+    "scripts": {
+        "analyze": "phpstan analyse classes",
+        "fix": "php-cs-fixer fix",
+        "watch": "phpunit-watcher watch",
+        "test": [
+            "mkdir -p tests/logs",
+            "@putenv XDEBUG_MODE=coverage",
+            "phpunit --configuration ./phpunit.xml"
+        ],
+        "dist": [
+            "composer install --no-dev --optimize-autoloader",
+            "git rm -rf --cached .; git add .;"
+        ],
+        "kirby": [
+            "composer install",
+            "composer update",
+            "composer install --working-dir=tests/kirby --no-dev --optimize-autoloader",
+            "composer update --working-dir=tests/kirby"
+        ]
+    },
+    "extra": {
+        "kirby-cms-path": "tests/kirby"
+    }
+}

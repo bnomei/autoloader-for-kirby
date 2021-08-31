@@ -1,6 +1,36 @@
-composer.phar
-/vendor/
+# OS files
+.DS_Store
+.idea
+*.cache
 
-# Commit your application's lock file https://getcomposer.org/doc/01-basic-usage.md#commit-your-composer-lock-file-to-version-control
-# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
-# composer.lock
+node_modules
+
+/tests/kirby
+/tests/logs
+/tests/media
+/tests/site/accounts
+/tests/site/cache
+/tests/site/sessions
+/tests/janitor-*.php
+
+# files of Composer dependencies that are not needed for the plugin
+/vendor/**/.*
+/vendor/**/*.json
+/vendor/**/*.txt
+/vendor/**/*.md
+/vendor/**/*.yml
+/vendor/**/*.yaml
+/vendor/**/*.xml
+/vendor/**/*.dist
+/vendor/**/readme.php
+/vendor/**/LICENSE
+/vendor/**/COPYING
+/vendor/**/VERSION
+/vendor/**/docs/*
+/vendor/**/example/*
+/vendor/**/examples/*
+/vendor/**/test/*
+/vendor/**/tests/*
+/vendor/**/php4/*
+/vendor/getkirby/composer-installer
+
