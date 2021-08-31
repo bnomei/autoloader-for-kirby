@@ -64,6 +64,7 @@ Kirby::plugin('bnomei/example', [
     'models' => autoloader(__DIR__)->models(),
     'snippets' => autoloader(__DIR__)->snippets(),
     'templates' => autoloader(__DIR__)->templates(),
+    'translations' => autoloader(__DIR__)->translations(),
     // other extensions
 ]);
 ```
