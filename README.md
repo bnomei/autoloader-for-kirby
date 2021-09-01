@@ -4,7 +4,7 @@
 ![Downloads](https://flat.badgen.net/packagist/dt/bnomei/autoloader-for-kirby?color=272822)
 [![Twitter](https://flat.badgen.net/badge/twitter/bnomei?color=66d9ef)](https://twitter.com/bnomei)
 
-Helper Class to automatically load various Kirby extensions in a plugin
+Helper to automatically load various Kirby extensions in a plugin
 
 ## Commerical Usage
 
@@ -20,7 +20,9 @@ This package is free but if you use it in a commercial project please consider t
 composer require bnomei/autoloader-for-kirby
 ```
 
-> This is NOT a kirby plugin. This is a composer package because that actually makes it easier to setup and does not mess with the loading order of extensions.
+## This package is NOT a kirby plugin
+
+This is a composer package because that actually makes it easier to setup and does not mess with the loading order of extensions. Being a package it also can be used not only for local plugins but also in plugins published online.
 
 ### Autoloading of extensions
 
@@ -31,18 +33,18 @@ Add the autoloader for each extension type you want once and it will register al
 The following extensions can be autoloaded:
 
 - [x] blueprints (php or yml)
-- [x] classes (php, namespaces are supported)
+- [x] classes (php)
 - [x] collections (php)
 - [x] controllers (php)
-- [x] pageModels (php, namespaces are not supported)
-- [x] userModels (php, namespaces are not supported)
+- [x] pageModels (php)
+- [x] userModels (php)
 - [x] snippets (php)
 - [x] templates (php)
 - [X] translations (php or yml or json)
 
 > NOTE: Loading translations from yaml or json files is added by this package and not originally part of kirby core.
 
-> ATTENTION: classes, pageModels and userModels can not be located in subfolders.
+> NOTE: The ``classes` autoloader is very basic. Using a custom array with kirby's `load()`-helper or composers psr-4 autoloading is recommended.
 
 **/site/plugins/example/index.php**
 ```php

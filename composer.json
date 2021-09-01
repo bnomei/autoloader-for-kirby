@@ -1,9 +1,9 @@
 {
     "name": "bnomei/autoloader-for-kirby",
     "type": "project",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "license": "MIT",
-    "description": "Helper Class to automatically load various Kirby extensions in a plugin",
+    "description": "Helper to automatically load various Kirby extensions in a plugin",
     "authors": [
         {
             "name": "Bruno Meilick",

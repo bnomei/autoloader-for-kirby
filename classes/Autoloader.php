@@ -97,6 +97,11 @@ final class Autoloader
         $this->registry = [];
     }
 
+    public function dir(): string
+    {
+        return $this->options['dir'];
+    }
+
     private function registry(string $type): array
     {
         // only register once
@@ -235,7 +240,7 @@ final class Autoloader
 
     public static function singleton(array $options = []): self
     {
-        if (self::$singleton) {
+        if (self::$singleton && self::$singleton->dir() === $options['dir']) {
             return self::$singleton;
         }
         self::$singleton = new self($options);

@@ -9,10 +9,12 @@ use PHPUnit\Framework\TestCase;
 final class AutoloaderTest extends TestCase
 {
     private $dir;
+    private $dir2;
 
     public function setUp(): void
     {
         $this->dir = __DIR__ . '/site/plugins/example';
+        $this->dir2 = __DIR__ . '/site/plugins/another';
     }
 
     public function testSingleton()
@@ -30,6 +32,12 @@ final class AutoloaderTest extends TestCase
     {
         $autoloader = autoloader($this->dir);
         $this->assertInstanceOf(Autoloader::class, $autoloader);
+
+        $autoloader2 = autoloader($this->dir);
+        $this->assertEquals($autoloader, $autoloader2);
+
+        $autoloader3 = autoloader($this->dir2);
+        $this->assertFalse($autoloader === $autoloader3);
     }
 
     public function testBlueprints()
