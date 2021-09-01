@@ -11,7 +11,10 @@ final class Autoloader
 {
     // exclude files like filename.config.(php|yml)
     public const PHP = '/^[\w\d\-\_]+\.php$/';
+    public const PAGE_PHP = '/^[\w\d\-\_]+(Page)\.php$/';
+    public const USER_PHP = '/^[\w\d\-\_]+(User)\.php$/';
     public const YML = '/^[\w\d\-\_]+\.yml$/';
+    public const PHP_OR_HTMLPHP = '/^[\w\d\-\_]+(\.html)?\.php$/';
     public const PHP_OR_YML = '/^[\w\d\-\_]+\.(php|yml)$/';
     public const PHP_OR_YML_OR_JSON = '/^[\w\d\-\_]+\.(php|yml|json)$/';
 
@@ -33,6 +36,13 @@ final class Autoloader
                 'key' => 'relativepath',
                 'require' => false,
             ],
+            'classes' => [
+                'folder' => 'classes',
+                'name' => static::PHP,
+                'key' => 'classname',
+                'require' => false,
+                'map' => [],
+            ],
             'collections' => [
                 'folder' => 'collections',
                 'name' => static::PHP,
@@ -45,21 +55,29 @@ final class Autoloader
                 'key' => 'filename',
                 'require' => true,
             ],
-            'models' => [
+            'pagemodels' => [
                 'folder' => 'models',
-                'name' => static::PHP,
+                'name' => static::PAGE_PHP,
                 'key' => 'classname',
                 'require' => false,
+                'map' => [],
+            ],
+            'usermodels' => [
+                'folder' => 'models',
+                'name' => static::USER_PHP,
+                'key' => 'classname',
+                'require' => false,
+                'map' => [],
             ],
             'snippets' => [
                 'folder' => 'snippets',
-                'name' => static::PHP,
+                'name' => static::PHP_OR_HTMLPHP,
                 'key' => 'relativepath',
                 'require' => false,
             ],
             'templates' => [
                 'folder' => 'templates',
-                'name' => static::PHP,
+                'name' => static::PHP_OR_HTMLPHP,
                 'key' => 'filename',
                 'require' => false,
             ],
@@ -104,22 +122,24 @@ final class Autoloader
                 $key = basename($file->getRelativePathname());
                 $key = strtolower(str_replace('.' . $extension, '', $key));
             } elseif ($options['key'] === 'classname') {
-                $key = basename($file->getRelativePathname());
+                $key = $file->getRelativePathname();
                 $key = str_replace('.' . $extension, '', $key);
-                $class = $key;
-                $key = strtolower($key);
+                $class = str_replace('/', '\\', $key);
                 if ($classFile = file_get_contents($file->getPathname())) {
                     if (preg_match('/^namespace (.*);$/im', $classFile, $matches) === 1) {
                         $class = $matches[1] . '\\' . $class;
+                    }    
+                }
+                $this->registry[$type]['map'][$class] = $file->getRelativePathname();
+                
+                foreach(['Page', 'User'] as $suffix) {
+                    $at = strpos($key, $suffix);
+                    if ($at === strlen($key) - strlen($suffix)) {
+                        $key = substr($key, 0, -strlen($suffix));
                     }
-                    $this->load([
-                        $class => $file->getRelativePathname(),
-                    ], $this->options['dir'] . '/' . $options['folder']);
                 }
-                $pageAt = strpos('Page', $key);
-                if ($pageAt === strlen($key) - 4) {
-                    $key = substr($key, 0, -4);
-                }
+                $key = strtolower($key);
+                $this->registry[$type][$key] = $class;
             }
             if (empty($key)) {
                 continue;
@@ -143,12 +163,38 @@ final class Autoloader
             }
         }
 
+        if ($options['key'] === 'classname') {
+            // sort by \ in FQCN count desc
+            // within same count sort alpha
+            $map = array_flip($this->registry[$type]['map']);
+            uasort($map, function($a, $b) {
+                $ca = substr_count($a, '\\');
+                $cb = substr_count($b, '\\');
+                if ($ca === $cb) {
+                    $alpha = sort([$a, $b]);
+                    return $alpha[0] === $a ? -1 : 1;
+                }
+                return $ca < $cb ? 1 : -1;
+                
+            });
+            $map = array_flip($map);
+            $this->load($map, $this->options['dir'] . '/' . $options['folder']);
+        }
+
         return $this->registry[$type];
     }
 
     public function blueprints(): array
     {
         return $this->registry('blueprints');
+    }
+
+    public function classes(string $folder = null): array
+    {
+        if ($folder) {
+            $this->options['classes']['folder'] = $folder;
+        }
+        return $this->registry('classes');
     }
 
     public function collections(): array
@@ -161,9 +207,14 @@ final class Autoloader
         return $this->registry('controllers');
     }
 
-    public function models(): array
+    public function pageModels(): array
     {
-        return $this->registry('models');
+        return $this->registry('pagemodels');
+    }
+
+    public function userModels(): array
+    {
+        return $this->registry('usermodels');
     }
 
     public function snippets(): array

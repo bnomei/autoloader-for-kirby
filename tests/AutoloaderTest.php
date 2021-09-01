@@ -49,6 +49,18 @@ final class AutoloaderTest extends TestCase
         $this->assertFileExists($blueprints['users/admin']);
     }
 
+    public function testClasses()
+    {
+        $autoloader = autoloader($this->dir);
+        $classes = $autoloader->classes();
+
+        $this->assertIsArray($classes);
+        $this->assertArrayHasKey('mega', $classes);
+        $this->assertArrayHasKey('ueber', $classes);
+        $this->assertTrue(class_exists('Alpha\\Mega'));
+        $this->assertTrue(trait_exists('Alpha\\Traits\\Ueber'));
+    }
+
     public function testCollections()
     {
         $autoloader = autoloader($this->dir);
@@ -69,16 +81,29 @@ final class AutoloaderTest extends TestCase
         $this->assertIsCallable($controllers['default']);
     }
 
-    public function testModels()
+    public function testPageModels()
     {
         $autoloader = autoloader($this->dir);
-        $models = $autoloader->models();
+        $models = $autoloader->pageModels();
 
         $this->assertIsArray($models);
-        $this->assertArrayHasKey('somepage', $models);
-        $this->assertArrayHasKey('otherpage', $models);
-        $this->assertTrue(class_exists('SomeName\\SomePage'));
+        $this->assertArrayHasKey('some', $models);
+        $this->assertArrayHasKey('other', $models);
         $this->assertTrue(class_exists('OtherPage'));
+        
+        // exists but kirby will not find it since
+        // "some" and "somename\somepage" do not match
+        $this->assertTrue(class_exists('SomeName\\SomePage'));
+    }
+
+    public function testUserModels()
+    {
+        $autoloader = autoloader($this->dir);
+        $models = $autoloader->userModels();
+
+        $this->assertIsArray($models);
+        $this->assertArrayHasKey('editor', $models);
+        $this->assertTrue(class_exists('EditorUser'));
     }
 
     public function testSnippets()

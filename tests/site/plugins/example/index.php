@@ -6,6 +6,8 @@
 
 use \Kirby\Cms\App as Kirby;
 
+autoloader(__DIR__)->classes();
+
 Kirby::plugin('bnomei/example', [
     'options' => [
         

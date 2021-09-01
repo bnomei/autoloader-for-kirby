@@ -31,14 +31,18 @@ Add the autoloader for each extension type you want once and it will register al
 The following extensions can be autoloaded:
 
 - [x] blueprints (php or yml)
+- [x] classes (php, namespaces are supported)
 - [x] collections (php)
 - [x] controllers (php)
-- [x] models (php, with registering of the class)
+- [x] pageModels (php, with registering of the class, namespaces are not supported)
+- [x] userModels (php, with registering of the class, namespaces are not supported)
 - [x] snippets (php)
 - [x] templates (php)
 - [X] translations (php or yml or json)
 
-> NOTE: Loading translations from yaml or json files is added by this package and not originally part of kirby core
+> NOTE: Loading translations from yaml or json files is added by this package and not originally part of kirby core.
+
+> ATTENTION: classes, pageModels and userModels can not be located in subfolders.
 
 **/site/plugins/example/index.php**
 ```php
@@ -54,6 +58,8 @@ autoloader(__DIR__, [
 ]);
 */
 
+autoloader(__DIR__)->classes();
+
 Kirby::plugin('bnomei/example', [
     'options' => [
         // options
@@ -61,7 +67,8 @@ Kirby::plugin('bnomei/example', [
     'blueprints' => autoloader(__DIR__)->blueprints(),
     'collections' => autoloader(__DIR__)->collections(),
     'controllers' => autoloader(__DIR__)->controllers(),
-    'models' => autoloader(__DIR__)->models(),
+    'pageModels' => autoloader(__DIR__)->pageModels(),
+    'userModels' => autoloader(__DIR__)->userModels(),
     'snippets' => autoloader(__DIR__)->snippets(),
     'templates' => autoloader(__DIR__)->templates(),
     'translations' => autoloader(__DIR__)->translations(),
@@ -70,6 +77,7 @@ Kirby::plugin('bnomei/example', [
 ```
 
 > Autoloader [Settings](https://github.com/bnomei/autoloader-for-kirby/blob/main/classes/Autoloader.php#L27)
+>
 
 ## Disclaimer
 
