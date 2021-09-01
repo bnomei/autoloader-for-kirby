@@ -11,6 +11,7 @@ final class Autoloader
 {
     // exclude files like filename.config.(php|yml)
     public const PHP = '/^[\w\d\-\_]+\.php$/';
+    public const ANY_PHP = '/^[\w\d\-\_\.]+\.php$/';
     public const PAGE_PHP = '/^[\w\d\-\_]+(Page)\.php$/';
     public const USER_PHP = '/^[\w\d\-\_]+(User)\.php$/';
     public const YML = '/^[\w\d\-\_]+\.yml$/';
@@ -51,7 +52,7 @@ final class Autoloader
             ],
             'controllers' => [
                 'folder' => 'controllers',
-                'name' => static::PHP,
+                'name' => static::ANY_PHP,
                 'key' => 'filename',
                 'require' => true,
             ],
@@ -77,7 +78,7 @@ final class Autoloader
             ],
             'templates' => [
                 'folder' => 'templates',
-                'name' => static::PHP_OR_HTMLPHP,
+                'name' => static::ANY_PHP,
                 'key' => 'filename',
                 'require' => false,
             ],

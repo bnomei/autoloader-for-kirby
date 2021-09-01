@@ -78,7 +78,9 @@ final class AutoloaderTest extends TestCase
 
         $this->assertIsArray($controllers);
         $this->assertArrayHasKey('default', $controllers);
+        $this->assertArrayHasKey('default.json', $controllers);
         $this->assertIsCallable($controllers['default']);
+        $this->assertIsCallable($controllers['default.json']);
     }
 
     public function testPageModels()
@@ -126,7 +128,7 @@ final class AutoloaderTest extends TestCase
 
         $this->assertIsArray($templates);
         $this->assertArrayHasKey('default', $templates);
-        $this->assertArrayNotHasKey('default.blade', $templates);
+        $this->assertArrayHasKey('default.json', $templates);
         $this->assertFileExists($templates['default']);
     }
 

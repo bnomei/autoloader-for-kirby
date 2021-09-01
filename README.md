@@ -34,8 +34,8 @@ The following extensions can be autoloaded:
 - [x] classes (php, namespaces are supported)
 - [x] collections (php)
 - [x] controllers (php)
-- [x] pageModels (php, with registering of the class, namespaces are not supported)
-- [x] userModels (php, with registering of the class, namespaces are not supported)
+- [x] pageModels (php, namespaces are not supported)
+- [x] userModels (php, namespaces are not supported)
 - [x] snippets (php)
 - [x] templates (php)
 - [X] translations (php or yml or json)
@@ -51,14 +51,15 @@ The following extensions can be autoloaded:
 // optionally change some settings
 /*
 autoloader(__DIR__, [
-    'templates' => [
-        'folder' => 'temblades',
-        'name' => '*.blade.php',
+    'snippets' => [
+        'folder' => 'schnippschnapp',
     ],
 ]);
 */
 
 autoloader(__DIR__)->classes();
+// use a different folder
+// autoloader(__DIR__)->classes('src');
 
 Kirby::plugin('bnomei/example', [
     'options' => [
@@ -77,7 +78,6 @@ Kirby::plugin('bnomei/example', [
 ```
 
 > Autoloader [Settings](https://github.com/bnomei/autoloader-for-kirby/blob/main/classes/Autoloader.php#L27)
->
 
 ## Disclaimer
 
