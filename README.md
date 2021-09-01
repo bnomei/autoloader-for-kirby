@@ -22,7 +22,8 @@ composer require bnomei/autoloader-for-kirby
 
 ## This package is NOT a kirby plugin
 
-This is a composer package because that actually makes it easier to setup and does not mess with the loading order of extensions. Being a package it also can be used not only for local plugins but also in plugins published online.
+- This is a composer package because that actually makes it easier to setup and does not mess with the loading order of extensions.
+- Being a package it also can be used not only for local plugins but also as a composer dependency within plugins published online.
 
 ### Autoloading of extensions
 
@@ -44,7 +45,7 @@ The following extensions can be autoloaded:
 
 > NOTE: Loading translations from yaml or json files is added by this package and not originally part of kirby core.
 
-> NOTE: The ``classes` autoloader is very basic. Using a custom array with kirby's `load()`-helper or composers psr-4 autoloading is recommended.
+> NOTE: The `classes` autoloader is very basic. Using a custom array with kirby's `load()`-helper or composers psr-4 autoloading is recommended.
 
 **/site/plugins/example/index.php**
 ```php
