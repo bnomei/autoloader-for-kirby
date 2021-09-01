@@ -47,6 +47,10 @@ The following extensions can be autoloaded:
 
 > NOTE: The `classes` autoloader is very basic. Using a custom array with kirby's `load()`-helper or composers psr-4 autoloading is recommended.
 
+## Usage
+
+After requiring it as a dependency in either your project or plugin `composer.json` you can use the `autoload()`-helper to load various extension.
+
 **/site/plugins/example/index.php**
 ```php
 <?php
@@ -80,7 +84,9 @@ Kirby::plugin('bnomei/example', [
 ]);
 ```
 
-> Autoloader [Settings](https://github.com/bnomei/autoloader-for-kirby/blob/main/classes/Autoloader.php#L27)
+## Settings
+
+The package does come with [default settings](https://github.com/bnomei/autoloader-for-kirby/blob/main/classes/Autoloader.php#L27) to fit most usecases.
 
 ## Disclaimer
 
