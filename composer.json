@@ -71,5 +71,8 @@
     },
     "extra": {
         "kirby-cms-path": "tests/kirby"
+    },
+    "suggests": {
+        "bnomei/kirby3-plopfile": "Plopfile to generate and append to various files for Kirby3 CMS using Plop.js"   
     }
 }

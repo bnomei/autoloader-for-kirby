@@ -88,6 +88,10 @@ Kirby::plugin('bnomei/example', [
 
 The package does come with [default settings](https://github.com/bnomei/autoloader-for-kirby/blob/main/classes/Autoloader.php#L27) to fit most usecases.
 
+## Suggestion
+
+This plugin works great in combination with my [Kirby CLI Tool](https://github.com/bnomei/kirby3-plopfile) which helps you to create extension files faster.
+
 ## Disclaimer
 
 This package is provided "as is" with no guarantee. Use it at your own risk and always test it yourself before using it in a production environment. If you find any issues, please [create a new issue](https://github.com/bnomei/autoloader-for-kirby/issues/new).
