@@ -36,12 +36,14 @@ final class Autoloader
                 'name' => static::PHP_OR_YML,
                 'key' => 'relativepath',
                 'require' => false,
+                'lowercase' => true,
             ],
             'classes' => [
                 'folder' => 'classes',
                 'name' => static::PHP,
                 'key' => 'classname',
                 'require' => false,
+                'lowercase' => true,
                 'map' => [],
             ],
             'collections' => [
@@ -49,18 +51,21 @@ final class Autoloader
                 'name' => static::PHP,
                 'key' => 'relativepath',
                 'require' => true,
+                'lowercase' => false,
             ],
             'controllers' => [
                 'folder' => 'controllers',
                 'name' => static::ANY_PHP,
                 'key' => 'filename',
                 'require' => true,
+                'lowercase' => true,
             ],
             'pagemodels' => [
                 'folder' => 'models',
                 'name' => static::PAGE_PHP,
                 'key' => 'classname',
                 'require' => false,
+                'lowercase' => true,
                 'map' => [],
             ],
             'usermodels' => [
@@ -68,6 +73,7 @@ final class Autoloader
                 'name' => static::USER_PHP,
                 'key' => 'classname',
                 'require' => false,
+                'lowercase' => true,
                 'map' => [],
             ],
             'snippets' => [
@@ -75,18 +81,21 @@ final class Autoloader
                 'name' => static::PHP_OR_HTMLPHP,
                 'key' => 'relativepath',
                 'require' => false,
+                'lowercase' => false,
             ],
             'templates' => [
                 'folder' => 'templates',
                 'name' => static::ANY_PHP,
                 'key' => 'filename',
                 'require' => false,
+                'lowercase' => true,
             ],
         	'translations' => [
         		'folder' => 'translations',
         		'name' => static::PHP_OR_YML_OR_JSON,
         		'key' => 'filename',
         		'require' => true,
+                'lowercase' => true,
         	],
         ], $options);
 
@@ -123,10 +132,16 @@ final class Autoloader
             $extension = array_pop($split);
             if ($options['key'] === 'relativepath') {
                 $key = $file->getRelativePathname();
-                $key = strtolower(str_replace('.' . $extension, '', $key));
+                $key = str_replace('.' . $extension, '', $key);
+                if ($options['lowercase']) {
+                    $key = strtolower($key);
+                }
             } elseif ($options['key'] === 'filename') {
                 $key = basename($file->getRelativePathname());
-                $key = strtolower(str_replace('.' . $extension, '', $key));
+                $key = str_replace('.' . $extension, '', $key);
+                if ($options['lowercase']) {
+                    $key = strtolower($key);
+                }
             } elseif ($options['key'] === 'classname') {
                 $key = $file->getRelativePathname();
                 $key = str_replace('.' . $extension, '', $key);
@@ -144,7 +159,9 @@ final class Autoloader
                         $key = substr($key, 0, -strlen($suffix));
                     }
                 }
-                $key = strtolower($key);
+                if ($options['lowercase']) {
+                    $key = strtolower($key);
+                }
                 $this->registry[$type][$key] = $class;
             }
             if (empty($key)) {

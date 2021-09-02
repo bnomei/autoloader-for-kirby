@@ -76,7 +76,9 @@ final class AutoloaderTest extends TestCase
 
         $this->assertIsArray($collections);
         $this->assertArrayHasKey('colle', $collections);
+        $this->assertArrayHasKey('withUpper', $collections);
         $this->assertIsCallable($collections['colle']);
+        $this->assertIsCallable($collections['withUpper']);
     }
 
     public function testControllers()
