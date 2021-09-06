@@ -119,11 +119,15 @@ final class Autoloader
         }
 
         $options = $this->options[$type];
+        $dir = $this->options['dir'] . '/' . $options['folder'];
+        if (!file_exists($dir) || !is_dir($dir)) {
+            return [];
+        }
 
         $this->registry[$type] = [];
         $finder = (new Finder())->files()
             ->name($options['name'])
-            ->in($this->options['dir'] . '/' . $options['folder']);
+            ->in($dir);
 
         foreach ($finder as $file) {
             $key = '';
@@ -186,7 +190,7 @@ final class Autoloader
             }
         }
 
-        if ($options['key'] === 'classname') {
+        if ($options['key'] === 'classname' && array_key_exists('map', $this->registry[$type])) {
             // sort by \ in FQCN count desc
             // within same count sort alpha
             $map = array_flip($this->registry[$type]['map']);
