@@ -198,7 +198,8 @@ final class Autoloader
                 $ca = substr_count($a, '\\');
                 $cb = substr_count($b, '\\');
                 if ($ca === $cb) {
-                    $alpha = sort([$a, $b]);
+                    $alpha = [$a, $b];
+                    sort($alpha);
                     return $alpha[0] === $a ? -1 : 1;
                 }
                 return $ca < $cb ? 1 : -1;
