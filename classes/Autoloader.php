@@ -207,6 +207,7 @@ final class Autoloader
             });
             $map = array_flip($map);
             $this->load($map, $this->options['dir'] . '/' . $options['folder']);
+            unset($this->registry[$type]['map']);
         }
 
         return $this->registry[$type];
