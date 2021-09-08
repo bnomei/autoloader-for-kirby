@@ -170,6 +170,8 @@ final class Autoloader
             }
             if (empty($key)) {
                 continue;
+            } else {
+                $key = strval($key); // in case key looks like a number but should be a string
             }
             
             if ($options['key'] === 'classname') {
