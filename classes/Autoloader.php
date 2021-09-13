@@ -152,6 +152,7 @@ final class Autoloader
                 $class = str_replace('/', '\\', $key);
                 if ($classFile = file_get_contents($file->getPathname())) {
                     if (preg_match('/^namespace (.*);$/im', $classFile, $matches) === 1) {
+                        $class = str_replace($matches[1] . '\\', '', $class);
                         $class = $matches[1] . '\\' . $class;
                     }    
                 }
