@@ -6,13 +6,20 @@
 
 Helper to automatically load various Kirby extensions in a plugin
 
+
 ## Commerical Usage
 
-This package is free but if you use it in a commercial project please consider to
+> <br>
+><b>Support open source!</b><br><br>
+> This plugin is free but if you use it in a commercial project please consider to sponsor me or make a donation.<br>
+> If my work helped you to make some cash it seems fair to me that I might get a little reward as well, right?<br><br>
+> Be kind. Share a little. Thanks.<br><br>
+> &dash; Bruno<br>
+> &nbsp; 
 
--   [make a donation 🍻](https://www.paypal.me/bnomei/5) or
--   [buy me ☕](https://buymeacoff.ee/bnomei) or
--   [buy a Kirby license using this affiliate link](https://a.paddle.com/v2/click/1129/35731?link=1170)
+| M | O | N | E | Y |
+|---|----|---|---|---|
+| [Github sponsor](https://github.com/sponsors/bnomei) | [Patreon](https://patreon.com/bnomei) | [Buy Me a Coffee](https://buymeacoff.ee/bnomei) | [Paypal dontation](https://www.paypal.me/bnomei/15) | [Buy a Kirby license using this affiliate link](https://a.paddle.com/v2/click/1129/35731?link=1170) |
 
 ## Installation
 
