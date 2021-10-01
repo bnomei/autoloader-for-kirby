@@ -7,7 +7,7 @@
 Helper to automatically load various Kirby extensions in a plugin
 
 
-## Commerical Usage
+## Commercial Usage
 
 > <br>
 ><b>Support open source!</b><br><br>
