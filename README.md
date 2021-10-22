@@ -44,6 +44,7 @@ The following extensions can be autoloaded:
 - [x] classes (php)
 - [x] collections (php)
 - [x] controllers (php)
+- [x] blockModels (php)
 - [x] pageModels (php)
 - [x] userModels (php)
 - [x] snippets (php)
@@ -82,6 +83,7 @@ Kirby::plugin('bnomei/example', [
     'blueprints' => autoloader(__DIR__)->blueprints(),
     'collections' => autoloader(__DIR__)->collections(),
     'controllers' => autoloader(__DIR__)->controllers(),
+    'blockModels' => autoloader(__DIR__)->blockModels(),
     'pageModels' => autoloader(__DIR__)->pageModels(),
     'userModels' => autoloader(__DIR__)->userModels(),
     'snippets' => autoloader(__DIR__)->snippets(),
