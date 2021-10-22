@@ -93,6 +93,21 @@ final class AutoloaderTest extends TestCase
         $this->assertIsCallable($controllers['default.json']);
     }
 
+    public function testBlockModels()
+    {
+        $autoloader = autoloader($this->dir);
+        $models = $autoloader->blockModels();
+
+        $this->assertIsArray($models);
+        $this->assertArrayHasKey('amaze', $models);
+        $this->assertArrayHasKey('bloba', $models);
+        $this->assertTrue(class_exists('AmazeBlock'));
+        
+        // exists but kirby will not find it since
+        // "some" and "somename\somepage" do not match
+        $this->assertTrue(class_exists('SomeName\\BlobaBlock'));
+    }
+
     public function testPageModels()
     {
         $autoloader = autoloader($this->dir);

@@ -12,6 +12,7 @@ final class Autoloader
     // exclude files like filename.config.(php|yml)
     public const PHP = '/^[\w\d\-\_]+\.php$/';
     public const ANY_PHP = '/^[\w\d\-\_\.]+\.php$/';
+    public const BLOCK_PHP = '/^[\w\d\-\_]+(Block)\.php$/';
     public const PAGE_PHP = '/^[\w\d\-\_]+(Page)\.php$/';
     public const USER_PHP = '/^[\w\d\-\_]+(User)\.php$/';
     public const YML = '/^[\w\d\-\_]+\.yml$/';
@@ -59,6 +60,14 @@ final class Autoloader
                 'key' => 'filename',
                 'require' => true,
                 'lowercase' => true,
+            ],
+            'blockmodels' => [
+                'folder' => 'models',
+                'name' => static::BLOCK_PHP,
+                'key' => 'classname',
+                'require' => false,
+                'lowercase' => true,
+                'map' => [],
             ],
             'pagemodels' => [
                 'folder' => 'models',
@@ -158,7 +167,7 @@ final class Autoloader
                 }
                 $this->registry[$type]['map'][$class] = $file->getRelativePathname();
                 
-                foreach(['Page', 'User'] as $suffix) {
+                foreach(['Page', 'User', 'Block'] as $suffix) {
                     $at = strpos($key, $suffix);
                     if ($at === strlen($key) - strlen($suffix)) {
                         $key = substr($key, 0, -strlen($suffix));
@@ -237,6 +246,11 @@ final class Autoloader
     public function controllers(): array
     {
         return $this->registry('controllers');
+    }
+
+    public function blockModels(): array
+    {
+        return $this->registry('blockmodels');
     }
 
     public function pageModels(): array
