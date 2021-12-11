@@ -10,15 +10,15 @@ use Symfony\Component\Finder\Finder;
 final class Autoloader
 {
     // exclude files like filename.config.(php|yml)
-    public const PHP = '/^[\w\d\-\_]+\.php$/';
+    public const PHP = '/^[\w\d\-\_\.]+\.php$/';
     public const ANY_PHP = '/^[\w\d\-\_\.]+\.php$/';
-    public const BLOCK_PHP = '/^[\w\d\-\_]+(Block)\.php$/';
-    public const PAGE_PHP = '/^[\w\d\-\_]+(Page)\.php$/';
-    public const USER_PHP = '/^[\w\d\-\_]+(User)\.php$/';
-    public const YML = '/^[\w\d\-\_]+\.yml$/';
-    public const PHP_OR_HTMLPHP = '/^[\w\d\-\_]+(\.html)?\.php$/';
-    public const PHP_OR_YML = '/^[\w\d\-\_]+\.(php|yml)$/';
-    public const PHP_OR_YML_OR_JSON = '/^[\w\d\-\_]+\.(php|yml|json)$/';
+    public const BLOCK_PHP = '/^[\w\d\-\_\.]+(Block)\.php$/';
+    public const PAGE_PHP = '/^[\w\d\-\_\.]+(Page)\.php$/';
+    public const USER_PHP = '/^[\w\d\-\_\.]+(User)\.php$/';
+    public const YML = '/^[\w\d\-\_\.]+\.yml$/';
+    public const PHP_OR_HTMLPHP = '/^[\w\d\-\_\.]+(\.html)?\.php$/';
+    public const PHP_OR_YML = '/^[\w\d\-\_\.]+\.(php|yml)$/';
+    public const PHP_OR_YML_OR_JSON = '/^[\w\d\-\_\.]+\.(php|yml|json)$/';
 
     /** @var self */
     private static $singleton;
