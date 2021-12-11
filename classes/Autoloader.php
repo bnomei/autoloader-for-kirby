@@ -16,6 +16,7 @@ final class Autoloader
     public const PAGE_PHP = '/^[\w\d\-\_]+(Page)\.php$/';
     public const USER_PHP = '/^[\w\d\-\_]+(User)\.php$/';
     public const YML = '/^[\w\d\-\_]+\.yml$/';
+    public const ANY_YML = '/^[\w\d\-\_\.]+\.yml$/';
     public const PHP_OR_HTMLPHP = '/^[\w\d\-\_]+(\.html)?\.php$/';
     public const PHP_OR_YML = '/^[\w\d\-\_]+\.(php|yml)$/';
     public const PHP_OR_YML_OR_JSON = '/^[\w\d\-\_]+\.(php|yml|json)$/';
@@ -163,10 +164,10 @@ final class Autoloader
                     if (preg_match('/^namespace (.*);$/im', $classFile, $matches) === 1) {
                         $class = str_replace($matches[1] . '\\', '', $class);
                         $class = $matches[1] . '\\' . $class;
-                    }    
+                    }
                 }
                 $this->registry[$type]['map'][$class] = $file->getRelativePathname();
-                
+
                 foreach(['Page', 'User', 'Block'] as $suffix) {
                     $at = strpos($key, $suffix);
                     if ($at === strlen($key) - strlen($suffix)) {
@@ -183,7 +184,7 @@ final class Autoloader
             } else {
                 $key = strval($key); // in case key looks like a number but should be a string
             }
-            
+
             if ($options['key'] === 'classname') {
                 $this->registry[$type][$key] = $class;
             } elseif ($options['require'] && $extension && strtolower($extension) === 'php') {
@@ -215,7 +216,7 @@ final class Autoloader
                     return $alpha[0] === $a ? -1 : 1;
                 }
                 return $ca < $cb ? 1 : -1;
-                
+
             });
             $map = array_flip($map);
             $this->load($map, $this->options['dir'] . '/' . $options['folder']);
