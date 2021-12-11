@@ -19,7 +19,9 @@ final class Autoloader
     public const ANY_YML = '/^[\w\d\-\_\.]+\.yml$/';
     public const PHP_OR_HTMLPHP = '/^[\w\d\-\_]+(\.html)?\.php$/';
     public const PHP_OR_YML = '/^[\w\d\-\_]+\.(php|yml)$/';
+    public const ANY_PHP_OR_YML = '/^[\w\d\-\_\.]+\.(php|yml)$/';
     public const PHP_OR_YML_OR_JSON = '/^[\w\d\-\_]+\.(php|yml|json)$/';
+    public const ANY_PHP_OR_YML_OR_JSON = '/^[\w\d\-\_\.]+\.(php|yml|json)$/';
 
     /** @var self */
     private static $singleton;
@@ -35,7 +37,7 @@ final class Autoloader
         $this->options = array_merge_recursive([
             'blueprints' => [
                 'folder' => 'blueprints',
-                'name' => static::PHP_OR_YML,
+                'name' => static::ANY_PHP_OR_YML,
                 'key' => 'relativepath',
                 'require' => false,
                 'lowercase' => true,
@@ -50,7 +52,7 @@ final class Autoloader
             ],
             'collections' => [
                 'folder' => 'collections',
-                'name' => static::PHP,
+                'name' => static::ANY_PHP,
                 'key' => 'relativepath',
                 'require' => true,
                 'lowercase' => false,
@@ -88,7 +90,7 @@ final class Autoloader
             ],
             'snippets' => [
                 'folder' => 'snippets',
-                'name' => static::PHP_OR_HTMLPHP,
+                'name' => static::ANY_PHP,
                 'key' => 'relativepath',
                 'require' => false,
                 'lowercase' => false,
@@ -102,7 +104,7 @@ final class Autoloader
             ],
         	'translations' => [
         		'folder' => 'translations',
-        		'name' => static::PHP_OR_YML_OR_JSON,
+        		'name' => static::ANY_PHP_OR_YML_OR_JSON,
         		'key' => 'filename',
         		'require' => true,
                 'lowercase' => true,
