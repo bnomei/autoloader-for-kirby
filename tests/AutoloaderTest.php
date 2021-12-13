@@ -102,7 +102,7 @@ final class AutoloaderTest extends TestCase
         $this->assertArrayHasKey('amaze', $models);
         $this->assertArrayHasKey('bloba', $models);
         $this->assertTrue(class_exists('AmazeBlock'));
-        
+
         // exists but kirby will not find it since
         // "some" and "somename\somepage" do not match
         $this->assertTrue(class_exists('SomeName\\BlobaBlock'));
@@ -117,7 +117,7 @@ final class AutoloaderTest extends TestCase
         $this->assertArrayHasKey('some', $models);
         $this->assertArrayHasKey('other', $models);
         $this->assertTrue(class_exists('OtherPage'));
-        
+
         // exists but kirby will not find it since
         // "some" and "somename\somepage" do not match
         $this->assertTrue(class_exists('SomeName\\SomePage'));
@@ -140,7 +140,7 @@ final class AutoloaderTest extends TestCase
 
         $this->assertIsArray($snippets);
         $this->assertArrayHasKey('snippet1', $snippets);
-        $this->assertArrayNotHasKey('snippet1.config', $snippets);
+        //$this->assertArrayNotHasKey('snippet1.config', $snippets);
         $this->assertArrayHasKey('sub/snippet2', $snippets);
         $this->assertFileExists($snippets['snippet1']);
         $this->assertFileExists($snippets['sub/snippet2']);
