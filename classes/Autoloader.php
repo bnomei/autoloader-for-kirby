@@ -149,6 +149,7 @@ final class Autoloader
             if ($options['key'] === 'relativepath') {
                 $key = $file->getRelativePathname();
                 $key = str_replace('.' . $extension, '', $key);
+                $key = str_replace('\\', '/', $key); // windows
                 if ($options['lowercase']) {
                     $key = strtolower($key);
                 }
