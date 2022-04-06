@@ -4,6 +4,7 @@ namespace Alpha;
 
 use Alpha\Traits\Ueber;
 
-final class Mega {
-	use Ueber;
+final class Mega
+{
+    use Ueber;
 }

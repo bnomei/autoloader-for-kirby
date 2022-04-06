@@ -102,13 +102,13 @@ final class Autoloader
                 'require' => false,
                 'lowercase' => true,
             ],
-        	'translations' => [
-        		'folder' => 'translations',
-        		'name' => static::ANY_PHP_OR_YML_OR_JSON,
-        		'key' => 'filename',
-        		'require' => true,
+            'translations' => [
+                'folder' => 'translations',
+                'name' => static::ANY_PHP_OR_YML_OR_JSON,
+                'key' => 'filename',
+                'require' => true,
                 'lowercase' => true,
-        	],
+            ],
         ], $options);
 
         if (!array_key_exists('dir', $this->options)) {
@@ -171,7 +171,7 @@ final class Autoloader
                 }
                 $this->registry[$type]['map'][$class] = $file->getRelativePathname();
 
-                foreach(['Page', 'User', 'Block'] as $suffix) {
+                foreach (['Page', 'User', 'Block'] as $suffix) {
                     $at = strpos($key, $suffix);
                     if ($at === strlen($key) - strlen($suffix)) {
                         $key = substr($key, 0, -strlen($suffix));
@@ -198,7 +198,7 @@ final class Autoloader
                 $this->registry[$type][$key] = json_decode(file_get_contents($path), true);
             } elseif ($options['require'] && $extension && strtolower($extension) === 'yml') {
                 $path = $file->getPathname();
-                 // remove BOM
+                // remove BOM
                 $yaml = str_replace("\xEF\xBB\xBF", '', file_get_contents($path));
                 $this->registry[$type][$key] = Spyc::YAMLLoadString($yaml);
             } else {
@@ -210,7 +210,7 @@ final class Autoloader
             // sort by \ in FQCN count desc
             // within same count sort alpha
             $map = array_flip($this->registry[$type]['map']);
-            uasort($map, function($a, $b) {
+            uasort($map, function ($a, $b) {
                 $ca = substr_count($a, '\\');
                 $cb = substr_count($b, '\\');
                 if ($ca === $cb) {
@@ -219,7 +219,6 @@ final class Autoloader
                     return $alpha[0] === $a ? -1 : 1;
                 }
                 return $ca < $cb ? 1 : -1;
-
             });
             $map = array_flip($map);
             $this->load($map, $this->options['dir'] . '/' . $options['folder']);

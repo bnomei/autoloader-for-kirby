@@ -1,7 +1,7 @@
 {
     "name": "bnomei/autoloader-for-kirby",
     "type": "project",
-    "version": "1.4.1",
+    "version": "1.5.0",
     "license": "MIT",
     "description": "Helper to automatically load various Kirby extensions in a plugin",
     "authors": [
@@ -37,12 +37,15 @@
     },
     "config": {
         "optimize-autoloader": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "getkirby/composer-installer": true
+        }
     },
     "require": {
         "php": ">=7.3.0",
         "mustangostang/spyc": "^0.6.3",
-        "symfony/finder": "^4.4"
+        "symfony/finder": "^5.4"
     },
     "require-dev": {
         "getkirby/cms": "^3.5",
