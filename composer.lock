@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00e5a54113930df1709938faa195b282",
+    "content-hash": "72c5b49b46f7e2525838162080895a77",
     "packages": [
         {
             "name": "mustangostang/spyc",
@@ -463,16 +463,16 @@
         },
         {
             "name": "getkirby/cms",
-            "version": "3.6.4",
+            "version": "3.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getkirby/kirby.git",
-                "reference": "3de403cabcd6755bdd95c159bd282ec63ec14658"
+                "reference": "40d2ee98b51644b8eefa814c37f3b402a9fdb994"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getkirby/kirby/zipball/3de403cabcd6755bdd95c159bd282ec63ec14658",
-                "reference": "3de403cabcd6755bdd95c159bd282ec63ec14658",
+                "url": "https://api.github.com/repos/getkirby/kirby/zipball/40d2ee98b51644b8eefa814c37f3b402a9fdb994",
+                "reference": "40d2ee98b51644b8eefa814c37f3b402a9fdb994",
                 "shasum": ""
             },
             "require": {
@@ -540,7 +540,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-04-05T08:03:55+00:00"
+            "time": "2022-04-19T12:49:55+00:00"
         },
         {
             "name": "getkirby/composer-installer",
@@ -4542,7 +4542,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.3.0"
+        "php": ">=7.4.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

@@ -80,6 +80,20 @@ final class Autoloader
                 'lowercase' => true,
                 'map' => [],
             ],
+            'routes' => [
+                'folder' => 'routes',
+                'name' => static::ANY_PHP,
+                'key' => 'route',
+                'require' => true,
+                'lowercase' => false,
+            ],
+            'apiroutes' => [
+                'folder' => 'api/routes',
+                'name' => static::ANY_PHP,
+                'key' => 'route',
+                'require' => true,
+                'lowercase' => false,
+            ],
             'usermodels' => [
                 'folder' => 'models',
                 'name' => static::USER_PHP,
@@ -146,7 +160,7 @@ final class Autoloader
             $class = '';
             $split = explode('.', $file->getPathname());
             $extension = array_pop($split);
-            if ($options['key'] === 'relativepath') {
+            if ($options['key'] === 'relativepath' || $options['key'] === 'route') {
                 $key = $file->getRelativePathname();
                 $key = str_replace('.' . $extension, '', $key);
                 $key = str_replace('\\', '/', $key); // windows
@@ -190,6 +204,24 @@ final class Autoloader
 
             if ($options['key'] === 'classname') {
                 $this->registry[$type][$key] = $class;
+            } elseif ($options['key'] === 'route') {
+                // Author: @tobimori
+                $pattern = strtolower($file->getRelativePathname());
+                $pattern = preg_replace('~(.*)' . preg_quote('.php', '~') . '~', '$1' . '', $pattern, 1); // replace extension at end
+                $pattern = preg_replace('~(.*)' . preg_quote('index', '~') . '~', '$1' . '', $pattern, 1); // replace index at end, for root of folder, but not in paths etc.
+
+                $route = require $file->getRealPath();
+
+                // check if return is actually an array (if additional stuff is specified, e.g. method or language) or returns a function
+                if (is_array($route) || $route instanceof \Closure) {
+                    $this->registry[$type][] = array_merge(
+                        [
+                            'pattern' => /*'/' . */ $pattern,
+                            'action' => $route instanceof \Closure ? $route : null
+                        ],
+                        is_array($route) ? $route : []
+                    );
+                }
             } elseif ($options['require'] && $extension && strtolower($extension) === 'php') {
                 $path = $file->getPathname();
                 $this->registry[$type][$key] = require_once $path;
@@ -261,6 +293,16 @@ final class Autoloader
         return $this->registry('pagemodels');
     }
 
+    public function routes(): array
+    {
+        return $this->registry('routes');
+    }
+
+    public function apiRoutes(): array
+    {
+        return $this->registry('apiroutes');
+    }
+
     public function userModels(): array
     {
         return $this->registry('usermodels');
@@ -279,6 +321,26 @@ final class Autoloader
     public function translations(): array
     {
         return $this->registry('translations');
+    }
+
+    public function toArray(array $merge = []): array
+    {
+        $this->classes();
+
+        return array_merge_recursive([
+            'blueprints' => $this->blueprints(),
+            'collections' => $this->collections(),
+            'controllers' => $this->controllers(),
+            'blockModels' => $this->blockModels(),
+            'pageModels' => $this->pageModels(),
+            'userModels' => $this->userModels(),
+            'snippets' => $this->snippets(),
+            'templates' => $this->templates(),
+            'translations' => $this->translations(),
+
+            'api' => ['routes' => $this->routes('api')],
+            'routes' => $this->routes(),
+        ], $merge);
     }
 
     public static function singleton(array $options = []): self

@@ -16,6 +16,7 @@ final class AutoloaderTest extends TestCase
     {
         $this->dir = __DIR__ . '/site/plugins/example';
         $this->dir2 = __DIR__ . '/site/plugins/another';
+        $this->dir3 = __DIR__ . '/site/plugins/routastic';
     }
 
     public function testSingleton()
@@ -132,6 +133,26 @@ final class AutoloaderTest extends TestCase
         $this->assertIsArray($models);
         $this->assertArrayHasKey('editor', $models);
         $this->assertTrue(class_exists('EditorUser'));
+    }
+
+    public function testRoutes()
+    {
+        $autoloader = autoloader($this->dir3);
+        $routes = $autoloader->routes();
+
+        $this->assertIsArray($routes);
+        $this->assertCount(3, $routes);
+        $this->assertEquals('routastic/(:any)/register', $routes[0]['pattern']);
+        $this->assertEquals('register', $routes[0]['action']());
+        $this->assertEquals('routastic/(:any)/unregister', $routes[1]['pattern']);
+        $this->assertEquals('unregister', $routes[1]['action']());
+        $this->assertEquals('routastic', $routes[2]['pattern']);
+        $this->assertEquals('index', $routes[2]['action']());
+
+        $apiRoutes = $autoloader->apiRoutes();
+        $this->assertCount(1, $apiRoutes);
+        $this->assertEquals('routastic/(:any)', $apiRoutes[0]['pattern']);
+        $this->assertEquals('api.index.hello', $apiRoutes[0]['action']('hello'));
     }
 
     public function testSnippets()

@@ -15,7 +15,7 @@ Helper to automatically load various Kirby extensions in a plugin
 > If my work helped you to make some cash it seems fair to me that I might get a little reward as well, right?<br><br>
 > Be kind. Share a little. Thanks.<br><br>
 > &dash; Bruno<br>
-> &nbsp; 
+> &nbsp;
 
 | M | O | N | E | Y |
 |---|----|---|---|---|
@@ -46,20 +46,43 @@ The following extensions can be autoloaded:
 - [x] controllers (php)
 - [x] blockModels (php)
 - [x] pageModels (php)
+- [x] routes (php)
+- [x] api/routes (php)
 - [x] userModels (php)
 - [x] snippets (php)
 - [x] templates (php)
 - [X] translations (php or yml or json)
 
-> NOTE: Loading translations from yaml or json files is added by this package and not originally part of kirby core.
+#### Notes
 
-> NOTE: The `classes` autoloader is very basic. Using a custom array with kirby's `load()`-helper or composers psr-4 autoloading is recommended.
+- Loading translations from yaml or json files is added by this package and not originally part of kirby core.
+- The `classes` autoloader is very basic. Using a custom array with kirby's `load()`-helper or composers psr-4 autoloading is recommended.
+- The `routes` and `apiRoutes` autoloader is based on code from @tobimori and needs a file structure similar to Next.js [see examples](https://github.com/bnomei/autoloader-for-kirby/blob/main/tests/site/plugins/routastic).
 
 ## Usage
 
 After requiring it as a dependency in either your project or plugin `composer.json` you can use the `autoload()`-helper to load various extension.
 
 **/site/plugins/example/index.php**
+```php
+<?php
+
+// only autoloader
+Kirby::plugin('bnomei/example', autoloader(__DIR__)->toArray());
+```
+
+```php
+<?php
+
+// merge autoloader with custom config
+Kirby::plugin('bnomei/example', autoloader(__DIR__)->toArray([
+    'options' => [
+        // options
+    ],
+    // other extensions
+]));
+```
+
 ```php
 <?php
 
@@ -76,6 +99,7 @@ autoloader(__DIR__)->classes();
 // use a different folder
 // autoloader(__DIR__)->classes('src');
 
+// set each option explicitly without merging
 Kirby::plugin('bnomei/example', [
     'options' => [
         // options
@@ -85,6 +109,7 @@ Kirby::plugin('bnomei/example', [
     'controllers' => autoloader(__DIR__)->controllers(),
     'blockModels' => autoloader(__DIR__)->blockModels(),
     'pageModels' => autoloader(__DIR__)->pageModels(),
+    'routes' => autoloader(__DIR__)->routes(),
     'userModels' => autoloader(__DIR__)->userModels(),
     'snippets' => autoloader(__DIR__)->snippets(),
     'templates' => autoloader(__DIR__)->templates(),

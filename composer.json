@@ -1,7 +1,7 @@
 {
     "name": "bnomei/autoloader-for-kirby",
     "type": "project",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "license": "MIT",
     "description": "Helper to automatically load various Kirby extensions in a plugin",
     "authors": [
@@ -25,7 +25,12 @@
         "controllers",
         "snippets",
         "templates",
-        "routes"
+        "routes",
+        "languages",
+        "translations",
+        "blockmodels",
+        "pagemodels",
+        "usermodels"
     ],
     "autoload": {
         "psr-4": {
@@ -43,7 +48,7 @@
         }
     },
     "require": {
-        "php": ">=7.3.0",
+        "php": ">=7.4.0",
         "mustangostang/spyc": "^0.6.3",
         "symfony/finder": "^5.4"
     },
