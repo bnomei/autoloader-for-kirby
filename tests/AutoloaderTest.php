@@ -142,14 +142,20 @@ final class AutoloaderTest extends TestCase
 
         $this->assertIsArray($routes);
         $this->assertCount(3, $routes);
-        $this->assertEquals('routastic/(:any)/register', $routes[0]['pattern']);
-        $this->assertEquals('register', $routes[0]['action']());
-        $this->assertEquals('routastic/(:any)/unregister', $routes[1]['pattern']);
-        $this->assertEquals('unregister', $routes[1]['action']());
-        $this->assertEquals('routastic', $routes[2]['pattern']);
-        $this->assertEquals('index', $routes[2]['action']());
+        usort($routes, function($a, $b) {
+           return strcmp($a['pattern'], $b['pattern']);
+        });
+        $this->assertEquals('routastic', $routes[0]['pattern']);
+        $this->assertEquals('index', $routes[0]['action']());
+        $this->assertEquals('routastic/(:any)/register', $routes[1]['pattern']);
+        $this->assertEquals('register', $routes[1]['action']());
+        $this->assertEquals('routastic/(:any)/unregister', $routes[2]['pattern']);
+        $this->assertEquals('unregister', $routes[2]['action']());
 
         $apiRoutes = $autoloader->apiRoutes();
+        usort($apiRoutes, function($a, $b) {
+            return strcmp($a['pattern'], $b['pattern']);
+        });
         $this->assertCount(1, $apiRoutes);
         $this->assertEquals('routastic/(:any)', $apiRoutes[0]['pattern']);
         $this->assertEquals('api.index.hello', $apiRoutes[0]['action']('hello'));
