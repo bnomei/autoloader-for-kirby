@@ -101,9 +101,9 @@ final class AutoloaderTest extends TestCase
         $models = $autoloader->blockModels();
 
         $this->assertIsArray($models);
-        $this->assertArrayHasKey('amaze', $models);
+        $this->assertArrayHasKey('very-amaze', $models);
         $this->assertArrayHasKey('bloba', $models);
-        $this->assertTrue(class_exists('AmazeBlock'));
+        $this->assertTrue(class_exists('VeryAmazeBlock'));
 
         // exists but kirby will not find it since
         // "some" and "somename\somepage" do not match
@@ -118,7 +118,9 @@ final class AutoloaderTest extends TestCase
         $this->assertIsArray($models);
         $this->assertArrayHasKey('some', $models);
         $this->assertArrayHasKey('other', $models);
+        $this->assertArrayHasKey('just-another', $models);
         $this->assertTrue(class_exists('OtherPage'));
+        $this->assertTrue(class_exists('JustAnotherPage'));
 
         // exists but kirby will not find it since
         // "some" and "somename\somepage" do not match
@@ -142,8 +144,8 @@ final class AutoloaderTest extends TestCase
 
         $this->assertIsArray($routes);
         $this->assertCount(3, $routes);
-        usort($routes, function($a, $b) {
-           return strcmp($a['pattern'], $b['pattern']);
+        usort($routes, function ($a, $b) {
+            return strcmp($a['pattern'], $b['pattern']);
         });
         $this->assertEquals('routastic', $routes[0]['pattern']);
         $this->assertEquals('index', $routes[0]['action']());
@@ -153,7 +155,7 @@ final class AutoloaderTest extends TestCase
         $this->assertEquals('unregister', $routes[2]['action']());
 
         $apiRoutes = $autoloader->apiRoutes();
-        usort($apiRoutes, function($a, $b) {
+        usort($apiRoutes, function ($a, $b) {
             return strcmp($a['pattern'], $b['pattern']);
         });
         $this->assertCount(1, $apiRoutes);
