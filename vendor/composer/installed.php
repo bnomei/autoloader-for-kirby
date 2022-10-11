@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'bnomei/autoloader-for-kirby',
-        'pretty_version' => '1.6.0',
-        'version' => '1.6.0.0',
+        'pretty_version' => '1.7.0',
+        'version' => '1.7.0.0',
         'reference' => NULL,
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
@@ -11,8 +11,8 @@
     ),
     'versions' => array(
         'bnomei/autoloader-for-kirby' => array(
-            'pretty_version' => '1.6.0',
-            'version' => '1.6.0.0',
+            'pretty_version' => '1.7.0',
+            'version' => '1.7.0.0',
             'reference' => NULL,
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'symfony/deprecation-contracts' => array(
-            'pretty_version' => 'v3.1.1',
-            'version' => '3.1.1.0',
-            'reference' => '07f1b9cc2ffee6aaafcf4b710fbc38ff736bd918',
+            'pretty_version' => 'v3.0.2',
+            'version' => '3.0.2.0',
+            'reference' => '26954b3d62a6c5fd0ea8a2a00c0353a14978d05c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/deprecation-contracts',
             'aliases' => array(),
