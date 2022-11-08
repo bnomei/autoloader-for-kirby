@@ -83,6 +83,18 @@ final class AutoloaderTest extends TestCase
         $this->assertIsCallable($collections['withUpper']);
     }
 
+    public function testCommands()
+    {
+        $autoloader = autoloader($this->dir);
+        $commands = $autoloader->commands();
+
+        $this->assertIsArray($commands);
+        $this->assertArrayHasKey('tecom', $commands);
+        $this->assertIsString($commands['tecom']['description']);
+        $this->assertIsArray($commands['tecom']['args']);
+        $this->assertIsCallable($commands['tecom']['command']);
+    }
+
     public function testControllers()
     {
         $autoloader = autoloader($this->dir);
