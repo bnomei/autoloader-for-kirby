@@ -1,7 +1,7 @@
 {
     "name": "bnomei/autoloader-for-kirby",
     "type": "project",
-    "version": "1.8.0",
+    "version": "1.9.0",
     "license": "MIT",
     "description": "Helper to automatically load various Kirby extensions in a plugin",
     "authors": [
@@ -51,7 +51,7 @@
     "require": {
         "php": ">=8.0",
         "mustangostang/spyc": "^0.6.3",
-        "symfony/finder": "^5.4"
+        "symfony/finder": "^6.0"
     },
     "require-dev": {
         "getkirby/cms": "^3.5",
