@@ -63,7 +63,7 @@ final class Autoloader
                 'name' => static::ANY_PHP,
                 'key' => 'relativepath',
                 'require' => true,
-                'transform' => false,
+                'transform' => fn ($key) => str_replace('/', ':', $key),
             ],
             'controllers' => [
                 'folder' => 'controllers',

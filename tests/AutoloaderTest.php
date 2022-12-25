@@ -93,6 +93,11 @@ final class AutoloaderTest extends TestCase
         $this->assertIsString($commands['tecom']['description']);
         $this->assertIsArray($commands['tecom']['args']);
         $this->assertIsCallable($commands['tecom']['command']);
+
+        $this->assertArrayHasKey('sub:subcom', $commands);
+        $this->assertIsString($commands['sub:subcom']['description']);
+        $this->assertIsArray($commands['sub:subcom']['args']);
+        $this->assertIsCallable($commands['sub:subcom']['command']);
     }
 
     public function testControllers()
