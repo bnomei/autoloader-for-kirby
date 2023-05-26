@@ -193,7 +193,6 @@ final class Autoloader
                         $key = substr($key, 0, -strlen($suffix));
                     }
                 }
-                $this->registry[$type][$key] = $class;
             }
             if (empty($key)) {
                 continue;
@@ -203,6 +202,9 @@ final class Autoloader
                 }
 
                 $key = strval($key); // in case key looks like a number but should be a string
+            }
+            if (!empty($class)) {
+                $this->registry[$type][$key] = $class;
             }
 
             if ($options['key'] === 'classname') {
