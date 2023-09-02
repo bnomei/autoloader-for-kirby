@@ -3,8 +3,8 @@
 ![Release](https://flat.badgen.net/packagist/v/bnomei/autoloader-for-kirby?color=ae81ff)
 ![Downloads](https://flat.badgen.net/packagist/dt/bnomei/autoloader-for-kirby?color=272822)
 [![Build Status](https://flat.badgen.net/travis/bnomei/autoloader-for-kirby)](https://travis-ci.com/bnomei/autoloader-for-kirby)
-[![Coverage Status](https://flat.badgen.net/coveralls/c/github/bnomei/autoloader-for-kirby)](https://coveralls.io/github/bnomei/autoloader-for-kirby) 
-[![Maintainability](https://flat.badgen.net/codeclimate/maintainability/bnomei/autoloader-for-kirby)](https://codeclimate.com/github/bnomei/autoloader-for-kirby) 
+[![Coverage Status](https://flat.badgen.net/coveralls/c/github/bnomei/autoloader-for-kirby)](https://coveralls.io/github/bnomei/autoloader-for-kirby)
+[![Maintainability](https://flat.badgen.net/codeclimate/maintainability/bnomei/autoloader-for-kirby)](https://codeclimate.com/github/bnomei/autoloader-for-kirby)
 [![Twitter](https://flat.badgen.net/badge/twitter/bnomei?color=66d9ef)](https://twitter.com/bnomei)
 
 Helper to automatically load various Kirby extensions in a plugin
@@ -43,7 +43,7 @@ Add the autoloader for each extension type you want once and it will register al
 
 The following extensions can be autoloaded:
 
-- [x] blueprints (php or yml)
+- [x] blueprints (php or yml, classes)
 - [x] classes (php)
 - [x] collections (php)
 - [x] commands (php)
@@ -62,6 +62,7 @@ The following extensions can be autoloaded:
 - Loading translations from yaml or json files is added by this package and not originally part of kirby core.
 - The `classes` autoloader is very basic. Using a custom array with kirby's `load()`-helper or composers psr-4 autoloading is recommended.
 - The `routes` and `apiRoutes` autoloader is based on code from @tobimori and needs a file structure similar to Next.js [see examples](https://github.com/bnomei/autoloader-for-kirby/blob/main/tests/site/plugins/routastic).
+- Blueprints loaded from classes need the [kirby-blueprints](https://github.com/bnomei/kirby-blueprints) plugin
 
 ## Usage
 

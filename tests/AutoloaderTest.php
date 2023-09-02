@@ -11,6 +11,7 @@ final class AutoloaderTest extends TestCase
 {
     private $dir;
     private $dir2;
+    private $dir3;
 
     public function setUp(): void
     {

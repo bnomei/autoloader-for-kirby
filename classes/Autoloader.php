@@ -259,6 +259,25 @@ final class Autoloader
             });
             $map = array_flip($map);
             $this->load($map, $this->options['dir'] . '/' . $options['folder']);
+
+            // load blueprints from classes
+            foreach ($map as $class => $file) {
+                // if instance of class has static method registerBlueprintExtension
+                if (method_exists($class, 'registerBlueprintExtension')) {
+                    // register blueprints now, using and empty array would prevent the loading later
+                    if (!array_key_exists('blueprints', $this->registry)) {
+                        $this->registry['blueprints'] = $this->blueprints();
+                    }
+                    // call registerBlueprintExtension
+                    $blueprint = $class::registerBlueprintExtension();
+                    // if blueprint is not empty
+                    if (!empty($blueprint)) {
+                        // merge with existing blueprint
+                        $this->registry['blueprints'] = array_merge_recursive($this->registry['blueprints'], $blueprint);
+                    }
+                }
+            }
+
             unset($this->registry[$type]['map']);
         }
 
@@ -337,21 +356,27 @@ final class Autoloader
     {
         $this->classes();
 
-        return array_merge_recursive([
-            'blueprints' => $this->blueprints(),
-            'collections' => $this->collections(),
-            'commands' => $this->commands(),
-            'controllers' => $this->controllers(),
-            'blockModels' => $this->blockModels(),
-            'pageModels' => $this->pageModels(),
-            'userModels' => $this->userModels(),
-            'snippets' => $this->snippets(),
-            'templates' => $this->templates(),
-            'translations' => $this->translations(),
-
-            'api' => ['routes' => $this->routes('api')],
-            'routes' => $this->routes(),
-        ], $merge);
+        // merge each on its own to allow cross loading between registries
+        // like a pageModel to load a blueprint
+        $base = [];
+        $types = [
+            'blueprints' => fn() => $this->blueprints(),
+            'collections' => fn() => $this->collections(),
+            'commands' => fn() => $this->commands(),
+            'controllers' => fn() => $this->controllers(),
+            'blockModels' => fn() => $this->blockModels(),
+            'pageModels' => fn() => $this->pageModels(),
+            'userModels' => fn() => $this->userModels(),
+            'snippets' => fn() => $this->snippets(),
+            'templates' => fn() => $this->templates(),
+            'translations' => fn() => $this->translations(),
+            'api' => fn() => ['routes' => fn() => $this->routes('api')],
+            'routes' => fn() => $this->routes(),
+        ];
+        foreach ($types as $key => $callback) {
+            $base = array_merge_recursive($base, [$key => $callback()]);
+        }
+        return array_merge_recursive($base, $merge);
     }
 
     public function pascalToKebabCase(string $string): string
