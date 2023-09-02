@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Bnomei;
 
 use Closure;
+use Kirby\Toolkit\A;
 use Spyc;
 use Symfony\Component\Finder\Finder;
 
@@ -263,7 +264,7 @@ final class Autoloader
             // load blueprints from classes
             foreach ($map as $class => $file) {
                 // if instance of class has static method registerBlueprintExtension
-                if (method_exists($class, 'registerBlueprintExtension')) {
+                if (class_exists($class) && method_exists($class, 'registerBlueprintExtension')) {
                     // register blueprints now, using and empty array would prevent the loading later
                     if (!array_key_exists('blueprints', $this->registry)) {
                         $this->registry['blueprints'] = $this->blueprints();
@@ -358,7 +359,6 @@ final class Autoloader
 
         // merge each on its own to allow cross loading between registries
         // like a pageModel to load a blueprint
-        $base = [];
         $types = [
             'blueprints' => fn() => $this->blueprints(),
             'collections' => fn() => $this->collections(),
@@ -374,9 +374,11 @@ final class Autoloader
             'routes' => fn() => $this->routes(),
         ];
         foreach ($types as $key => $callback) {
-            $base = array_merge_recursive($base, [$key => $callback()]);
+            $this->registry[$key] = array_merge_recursive(A::get($this->registry, $key, []), $callback());
         }
-        return array_merge_recursive($base, $merge);
+
+        // merge on top but do not store in the registry
+        return array_merge_recursive($this->registry, $merge);
     }
 
     public function pascalToKebabCase(string $string): string
