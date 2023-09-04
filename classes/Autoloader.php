@@ -360,21 +360,21 @@ final class Autoloader
         // merge each on its own to allow cross loading between registries
         // like a pageModel to load a blueprint
         $types = [
-            'blueprints' => fn() => $this->blueprints(),
-            'collections' => fn() => $this->collections(),
-            'commands' => fn() => $this->commands(),
-            'controllers' => fn() => $this->controllers(),
-            'blockModels' => fn() => $this->blockModels(),
-            'pageModels' => fn() => $this->pageModels(),
-            'userModels' => fn() => $this->userModels(),
-            'snippets' => fn() => $this->snippets(),
-            'templates' => fn() => $this->templates(),
-            'translations' => fn() => $this->translations(),
-            'api' => fn() => ['routes' => fn() => $this->routes('api')],
-            'routes' => fn() => $this->routes(),
+            fn () => ['blueprints'  => $this->blueprints()],
+            fn () => ['collections'  => $this->collections()],
+            fn () => ['commands'  => $this->commands()],
+            fn () => ['controllers'  => $this->controllers()],
+            fn () => ['blockModels'  => $this->blockModels()],
+            fn () => ['pageModels'  => $this->pageModels()],
+            fn () => ['userModels'  => $this->userModels()],
+            fn () => ['snippets'  => $this->snippets()],
+            fn () => ['templates'  => $this->templates()],
+            fn () => ['translations'  => $this->translations()],
+            fn () => ['api'  => ['routes' => $this->apiRoutes()]],
+            fn () => ['routes'  => $this->routes()],
         ];
-        foreach ($types as $key => $callback) {
-            $this->registry[$key] = array_merge_recursive(A::get($this->registry, $key, []), $callback());
+        foreach ($types as $callback) {
+            $this->registry = array_merge_recursive($this->registry, $callback());
         }
 
         // merge on top but do not store in the registry
