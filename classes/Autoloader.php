@@ -264,13 +264,13 @@ final class Autoloader
             // load blueprints from classes
             foreach ($map as $class => $file) {
                 // if instance of class has static method registerBlueprintExtension
-                if (class_exists($class) && method_exists($class, 'registerBlueprintExtension')) {
+                if (class_exists($class) && method_exists($class, 'blueprintFromAttributes')) {
                     // register blueprints now, using and empty array would prevent the loading later
                     if (!array_key_exists('blueprints', $this->registry)) {
                         $this->registry['blueprints'] = $this->blueprints();
                     }
-                    // call registerBlueprintExtension
-                    $blueprint = $class::registerBlueprintExtension();
+                    // call blueprintFromAttributes
+                    $blueprint = $class::blueprintFromAttributes();
                     // if blueprint is not empty
                     if (!empty($blueprint)) {
                         // merge with existing blueprint
