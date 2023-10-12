@@ -374,7 +374,11 @@ final class Autoloader
             fn () => ['routes'  => $this->routes()],
         ];
         foreach ($types as $callback) {
-            $this->registry = array_merge_recursive($this->registry, $callback());
+            $c = (array) $callback();
+            $r = (array) $this->registry;
+            $this->registry = array_merge_recursive($r, $c);
+            // NOTE: if done like this PHP does not merge correctly for whatever reason
+            // $this->registry = array_merge_recursive($this->registry, $callback());
         }
 
         // merge on top but do not store in the registry
