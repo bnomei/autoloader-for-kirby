@@ -73,7 +73,7 @@ final class Autoloader
                 'require' => true,
                 'transform' => fn ($key) => static::pascalToKebabCase($key),
             ],
-            'blockmodels' => [
+            'blockModels' => [
                 'folder' => 'models',
                 'name' => static::BLOCK_PHP,
                 'key' => 'classname',
@@ -81,7 +81,7 @@ final class Autoloader
                 'transform' => fn ($key) => static::pascalToKebabCase($key),
                 'map' => [],
             ],
-            'pagemodels' => [
+            'pageModels' => [
                 'folder' => 'models',
                 'name' => static::PAGE_PHP,
                 'key' => 'classname',
@@ -103,7 +103,7 @@ final class Autoloader
                 'require' => true,
                 'transform' => false,
             ],
-            'usermodels' => [
+            'userModels' => [
                 'folder' => 'models',
                 'name' => static::USER_PHP,
                 'key' => 'classname',
@@ -231,6 +231,9 @@ final class Autoloader
             } elseif ($options['require'] && $extension && strtolower($extension) === 'php') {
                 $path = $file->getPathname();
                 $this->registry[$type][$key] = require_once $path;
+            } elseif ($options['folder'] === 'blueprints' && $extension && strtolower($extension) === 'php') {
+                $path = $file->getPathname();
+                $this->registry[$type][$key] = require_once $path;
             } elseif ($options['require'] && $extension && strtolower($extension) === 'json') {
                 $path = $file->getPathname();
                 $this->registry[$type][$key] = json_decode(file_get_contents($path), true);
@@ -274,7 +277,7 @@ final class Autoloader
                     // if blueprint is not empty
                     if (!empty($blueprint)) {
                         // merge with existing blueprint
-                        $this->registry['blueprints'] = array_merge_recursive($this->registry['blueprints'], $blueprint);
+                        $this->registry['blueprints'] = array_merge($this->registry['blueprints'], $blueprint);
                     }
                 }
             }
@@ -315,12 +318,12 @@ final class Autoloader
 
     public function blockModels(): array
     {
-        return $this->registry('blockmodels');
+        return $this->registry('blockModels');
     }
 
     public function pageModels(): array
     {
-        return $this->registry('pagemodels');
+        return $this->registry('pageModels');
     }
 
     public function routes(): array
@@ -335,7 +338,7 @@ final class Autoloader
 
     public function userModels(): array
     {
-        return $this->registry('usermodels');
+        return $this->registry('userModels');
     }
 
     public function snippets(): array
@@ -376,9 +379,7 @@ final class Autoloader
         foreach ($types as $callback) {
             $c = (array) $callback();
             $r = (array) $this->registry;
-            $this->registry = array_merge_recursive($r, $c);
-            // NOTE: if done like this PHP does not merge correctly for whatever reason
-            // $this->registry = array_merge_recursive($this->registry, $callback());
+            $this->registry = array_merge($r, $c);
         }
 
         // merge on top but do not store in the registry
