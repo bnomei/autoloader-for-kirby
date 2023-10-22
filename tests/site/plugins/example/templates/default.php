@@ -1,3 +1,3 @@
 <?php
 
-echo "example default";
+echo 'example default';

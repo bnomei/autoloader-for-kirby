@@ -1,0 +1,11 @@
+parameters:
+    level: 5
+    paths:
+        - classes
+        - helpers.php
+    excludePaths:
+        - tests
+    checkMissingIterableValueType: false
+
+    ignoreErrors:
+        # - '#Undefined variable: \$this#'

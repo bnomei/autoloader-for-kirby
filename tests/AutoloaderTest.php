@@ -2,217 +2,180 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 use Bnomei\Autoloader;
-use PHPUnit\Framework\TestCase;
+beforeEach(function () {
+    $this->dir = __DIR__.'/site/plugins/example';
+    $this->dir2 = __DIR__.'/site/plugins/another';
+    $this->dir3 = __DIR__.'/site/plugins/routastic';
+});
+test('singleton', function () {
+    // create
+    $autoloader = Autoloader::singleton(['dir' => $this->dir]);
+    expect($autoloader)->toBeInstanceOf(Autoloader::class);
 
-final class AutoloaderTest extends TestCase
-{
-    private $dir;
-    private $dir2;
-    private $dir3;
+    // from static cached
+    $autoloader = Autoloader::singleton(['dir' => $this->dir]);
+    expect($autoloader)->toBeInstanceOf(Autoloader::class);
+});
+test('global helper', function () {
+    $autoloader = autoloader($this->dir);
+    expect($autoloader)->toBeInstanceOf(Autoloader::class);
 
-    public function setUp(): void
-    {
-        $this->dir = __DIR__ . '/site/plugins/example';
-        $this->dir2 = __DIR__ . '/site/plugins/another';
-        $this->dir3 = __DIR__ . '/site/plugins/routastic';
-    }
+    $autoloader2 = autoloader($this->dir);
+    expect($autoloader2)->toEqual($autoloader);
 
-    public function testSingleton()
-    {
-        // create
-        $autoloader = Autoloader::singleton(['dir' => $this->dir]);
-        $this->assertInstanceOf(Autoloader::class, $autoloader);
+    $autoloader3 = autoloader($this->dir2);
+    expect($autoloader === $autoloader3)->toBeFalse();
+});
+test('blueprints', function () {
+    $autoloader = autoloader($this->dir);
+    $blueprints = $autoloader->blueprints();
 
-        // from static cached
-        $autoloader = Autoloader::singleton(['dir' => $this->dir]);
-        $this->assertInstanceOf(Autoloader::class, $autoloader);
-    }
+    expect($blueprints)->toBeArray();
+    expect($blueprints)->toHaveKey('files/touch');
+    expect($blueprints)->toHaveKey('pages/default');
+    expect($blueprints)->toHaveKey('pages/isphp');
+    $this->assertArrayNotHasKey('page/isconf', $blueprints);
+    expect($blueprints)->toHaveKey('users/admin');
+    expect($blueprints['files/touch'])->toBeFile();
+    expect($blueprints['pages/isphp'])->toBeArray();
+    expect($blueprints['pages/default'])->toBeFile();
+    expect($blueprints['users/admin'])->toBeFile();
+});
+test('classes', function () {
+    $autoloader = autoloader($this->dir);
+    $classes = $autoloader->classes();
 
-    public function testGlobalHelper()
-    {
-        $autoloader = autoloader($this->dir);
-        $this->assertInstanceOf(Autoloader::class, $autoloader);
+    expect($classes)->toBeArray();
+    expect($classes)->toHaveKey('mega');
+    expect($classes)->toHaveKey('ueber');
+    expect(class_exists('Alpha\\Mega'))->toBeTrue();
+    expect(trait_exists('Alpha\\Traits\\Ueber'))->toBeTrue();
+});
+test('collections', function () {
+    $autoloader = autoloader($this->dir);
+    $collections = $autoloader->collections();
 
-        $autoloader2 = autoloader($this->dir);
-        $this->assertEquals($autoloader, $autoloader2);
+    expect($collections)->toBeArray();
+    expect($collections)->toHaveKey('colle');
+    expect($collections)->toHaveKey('withUpper');
+    expect($collections['colle'])->toBeCallable();
+    expect($collections['withUpper'])->toBeCallable();
+});
+test('commands', function () {
+    $autoloader = autoloader($this->dir);
+    $commands = $autoloader->commands();
 
-        $autoloader3 = autoloader($this->dir2);
-        $this->assertFalse($autoloader === $autoloader3);
-    }
+    expect($commands)->toBeArray();
+    expect($commands)->toHaveKey('tecom');
+    expect($commands['tecom']['description'])->toBeString();
+    expect($commands['tecom']['args'])->toBeArray();
+    expect($commands['tecom']['command'])->toBeCallable();
 
-    public function testBlueprints()
-    {
-        $autoloader = autoloader($this->dir);
-        $blueprints = $autoloader->blueprints();
+    expect($commands)->toHaveKey('sub:subcom');
+    expect($commands['sub:subcom']['description'])->toBeString();
+    expect($commands['sub:subcom']['args'])->toBeArray();
+    expect($commands['sub:subcom']['command'])->toBeCallable();
+});
+test('controllers', function () {
+    $autoloader = autoloader($this->dir);
+    $controllers = $autoloader->controllers();
 
-        $this->assertIsArray($blueprints);
-        $this->assertArrayHasKey('files/touch', $blueprints);
-        $this->assertArrayHasKey('pages/default', $blueprints);
-        $this->assertArrayHasKey('pages/isphp', $blueprints);
-        $this->assertArrayNotHasKey('page/isconf', $blueprints);
-        $this->assertArrayHasKey('users/admin', $blueprints);
-        $this->assertFileExists($blueprints['files/touch']);
-        $this->assertFileExists($blueprints['pages/isphp']);
-        $this->assertFileExists($blueprints['pages/default']);
-        $this->assertFileExists($blueprints['users/admin']);
-    }
+    expect($controllers)->toBeArray();
+    expect($controllers)->toHaveKey('default');
+    expect($controllers)->toHaveKey('default.json');
+    expect($controllers['default'])->toBeCallable();
+    expect($controllers['default.json'])->toBeCallable();
+});
+test('block models', function () {
+    $autoloader = autoloader($this->dir);
+    $models = $autoloader->blockModels();
 
-    public function testClasses()
-    {
-        $autoloader = autoloader($this->dir);
-        $classes = $autoloader->classes();
+    expect($models)->toBeArray();
+    expect($models)->toHaveKey('very-amaze');
+    expect($models)->toHaveKey('bloba');
+    expect(class_exists('VeryAmazeBlock'))->toBeTrue();
 
-        $this->assertIsArray($classes);
-        $this->assertArrayHasKey('mega', $classes);
-        $this->assertArrayHasKey('ueber', $classes);
-        $this->assertTrue(class_exists('Alpha\\Mega'));
-        $this->assertTrue(trait_exists('Alpha\\Traits\\Ueber'));
-    }
+    // exists but kirby will not find it since
+    // "some" and "somename\somepage" do not match
+    expect(class_exists('SomeName\\BlobaBlock'))->toBeTrue();
+});
+test('page models', function () {
+    $autoloader = autoloader($this->dir);
+    $models = $autoloader->pageModels();
 
-    public function testCollections()
-    {
-        $autoloader = autoloader($this->dir);
-        $collections = $autoloader->collections();
+    expect($models)->toBeArray();
+    expect($models)->toHaveKey('some');
+    expect($models)->toHaveKey('other');
+    expect($models)->toHaveKey('just-another');
+    expect(class_exists('OtherPage'))->toBeTrue();
+    expect(class_exists('JustAnotherPage'))->toBeTrue();
 
-        $this->assertIsArray($collections);
-        $this->assertArrayHasKey('colle', $collections);
-        $this->assertArrayHasKey('withUpper', $collections);
-        $this->assertIsCallable($collections['colle']);
-        $this->assertIsCallable($collections['withUpper']);
-    }
+    // exists but kirby will not find it since
+    // "some" and "somename\somepage" do not match
+    expect(class_exists('SomeName\\SomePage'))->toBeTrue();
+});
+test('user models', function () {
+    $autoloader = autoloader($this->dir);
+    $models = $autoloader->userModels();
 
-    public function testCommands()
-    {
-        $autoloader = autoloader($this->dir);
-        $commands = $autoloader->commands();
+    expect($models)->toBeArray();
+    expect($models)->toHaveKey('editor');
+    expect(class_exists('EditorUser'))->toBeTrue();
+});
+test('routes', function () {
+    $autoloader = autoloader($this->dir3);
+    $routes = $autoloader->routes();
 
-        $this->assertIsArray($commands);
-        $this->assertArrayHasKey('tecom', $commands);
-        $this->assertIsString($commands['tecom']['description']);
-        $this->assertIsArray($commands['tecom']['args']);
-        $this->assertIsCallable($commands['tecom']['command']);
+    expect($routes)->toBeArray();
+    expect($routes)->toHaveCount(3);
+    usort($routes, function ($a, $b) {
+        return strcmp($a['pattern'], $b['pattern']);
+    });
+    expect($routes[0]['pattern'])->toEqual('routastic');
+    expect($routes[0]['action']())->toEqual('index');
+    expect($routes[1]['pattern'])->toEqual('routastic/(:any)/register');
+    expect($routes[1]['action']())->toEqual('register');
+    expect($routes[2]['pattern'])->toEqual('routastic/(:any)/unregister');
+    expect($routes[2]['action']())->toEqual('unregister');
 
-        $this->assertArrayHasKey('sub:subcom', $commands);
-        $this->assertIsString($commands['sub:subcom']['description']);
-        $this->assertIsArray($commands['sub:subcom']['args']);
-        $this->assertIsCallable($commands['sub:subcom']['command']);
-    }
+    $apiRoutes = $autoloader->apiRoutes();
+    usort($apiRoutes, function ($a, $b) {
+        return strcmp($a['pattern'], $b['pattern']);
+    });
+    expect($apiRoutes)->toHaveCount(1);
+    expect($apiRoutes[0]['pattern'])->toEqual('routastic/(:any)');
+    expect($apiRoutes[0]['action']('hello'))->toEqual('api.index.hello');
+});
+test('snippets', function () {
+    $autoloader = autoloader($this->dir);
+    $snippets = $autoloader->snippets();
 
-    public function testControllers()
-    {
-        $autoloader = autoloader($this->dir);
-        $controllers = $autoloader->controllers();
+    expect($snippets)->toBeArray();
+    expect($snippets)->toHaveKey('snippet1');
 
-        $this->assertIsArray($controllers);
-        $this->assertArrayHasKey('default', $controllers);
-        $this->assertArrayHasKey('default.json', $controllers);
-        $this->assertIsCallable($controllers['default']);
-        $this->assertIsCallable($controllers['default.json']);
-    }
+    //$this->assertArrayNotHasKey('snippet1.config', $snippets);
+    expect($snippets)->toHaveKey('sub/snippet2');
+    expect($snippets['snippet1'])->toBeFile();
+    expect($snippets['sub/snippet2'])->toBeFile();
+});
+test('templates', function () {
+    $autoloader = autoloader($this->dir);
+    $templates = $autoloader->templates();
 
-    public function testBlockModels()
-    {
-        $autoloader = autoloader($this->dir);
-        $models = $autoloader->blockModels();
+    expect($templates)->toBeArray();
+    expect($templates)->toHaveKey('default');
+    expect($templates)->toHaveKey('default.json');
+    expect($templates['default'])->toBeFile();
+});
+test('translations', function () {
+    $autoloader = autoloader($this->dir);
+    $translations = $autoloader->translations();
 
-        $this->assertIsArray($models);
-        $this->assertArrayHasKey('very-amaze', $models);
-        $this->assertArrayHasKey('bloba', $models);
-        $this->assertTrue(class_exists('VeryAmazeBlock'));
-
-        // exists but kirby will not find it since
-        // "some" and "somename\somepage" do not match
-        $this->assertTrue(class_exists('SomeName\\BlobaBlock'));
-    }
-
-    public function testPageModels()
-    {
-        $autoloader = autoloader($this->dir);
-        $models = $autoloader->pageModels();
-
-        $this->assertIsArray($models);
-        $this->assertArrayHasKey('some', $models);
-        $this->assertArrayHasKey('other', $models);
-        $this->assertArrayHasKey('just-another', $models);
-        $this->assertTrue(class_exists('OtherPage'));
-        $this->assertTrue(class_exists('JustAnotherPage'));
-
-        // exists but kirby will not find it since
-        // "some" and "somename\somepage" do not match
-        $this->assertTrue(class_exists('SomeName\\SomePage'));
-    }
-
-    public function testUserModels()
-    {
-        $autoloader = autoloader($this->dir);
-        $models = $autoloader->userModels();
-
-        $this->assertIsArray($models);
-        $this->assertArrayHasKey('editor', $models);
-        $this->assertTrue(class_exists('EditorUser'));
-    }
-
-    public function testRoutes()
-    {
-        $autoloader = autoloader($this->dir3);
-        $routes = $autoloader->routes();
-
-        $this->assertIsArray($routes);
-        $this->assertCount(3, $routes);
-        usort($routes, function ($a, $b) {
-            return strcmp($a['pattern'], $b['pattern']);
-        });
-        $this->assertEquals('routastic', $routes[0]['pattern']);
-        $this->assertEquals('index', $routes[0]['action']());
-        $this->assertEquals('routastic/(:any)/register', $routes[1]['pattern']);
-        $this->assertEquals('register', $routes[1]['action']());
-        $this->assertEquals('routastic/(:any)/unregister', $routes[2]['pattern']);
-        $this->assertEquals('unregister', $routes[2]['action']());
-
-        $apiRoutes = $autoloader->apiRoutes();
-        usort($apiRoutes, function ($a, $b) {
-            return strcmp($a['pattern'], $b['pattern']);
-        });
-        $this->assertCount(1, $apiRoutes);
-        $this->assertEquals('routastic/(:any)', $apiRoutes[0]['pattern']);
-        $this->assertEquals('api.index.hello', $apiRoutes[0]['action']('hello'));
-    }
-
-    public function testSnippets()
-    {
-        $autoloader = autoloader($this->dir);
-        $snippets = $autoloader->snippets();
-
-        $this->assertIsArray($snippets);
-        $this->assertArrayHasKey('snippet1', $snippets);
-        //$this->assertArrayNotHasKey('snippet1.config', $snippets);
-        $this->assertArrayHasKey('sub/snippet2', $snippets);
-        $this->assertFileExists($snippets['snippet1']);
-        $this->assertFileExists($snippets['sub/snippet2']);
-    }
-
-    public function testTemplates()
-    {
-        $autoloader = autoloader($this->dir);
-        $templates = $autoloader->templates();
-
-        $this->assertIsArray($templates);
-        $this->assertArrayHasKey('default', $templates);
-        $this->assertArrayHasKey('default.json', $templates);
-        $this->assertFileExists($templates['default']);
-    }
-
-    public function testTranslations()
-    {
-        $autoloader = autoloader($this->dir);
-        $translations = $autoloader->translations();
-
-        $this->assertIsArray($translations);
-        $this->assertEquals('Deutsch', $translations['de']['lang']);
-        $this->assertEquals('English', $translations['en']['lang']);
-        $this->assertEquals('日本語', $translations['jp']['lang']);
-    }
-}
+    expect($translations)->toBeArray();
+    expect($translations['de']['lang'])->toEqual('Deutsch');
+    expect($translations['en']['lang'])->toEqual('English');
+    expect($translations['jp']['lang'])->toEqual('日本語');
+});

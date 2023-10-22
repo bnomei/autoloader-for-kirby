@@ -1,3 +1,3 @@
 <?php
 
-echo "root default";
+echo 'root default';

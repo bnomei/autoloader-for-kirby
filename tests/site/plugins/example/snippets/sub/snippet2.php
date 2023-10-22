@@ -1,3 +1,3 @@
 <?php
 
-echo "snippet2";
+echo 'snippet2';
