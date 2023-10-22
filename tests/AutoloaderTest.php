@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__.'/../vendor/autoload.php';
 
 use Bnomei\Autoloader;
+
 beforeEach(function () {
     $this->dir = __DIR__.'/site/plugins/example';
     $this->dir2 = __DIR__.'/site/plugins/another';
