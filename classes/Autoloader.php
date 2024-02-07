@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Bnomei;
 
 use Closure;
+use Exception;
 use Kirby\Toolkit\A;
 use Spyc;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Yaml;
 
 final class Autoloader
 {
@@ -48,6 +50,11 @@ final class Autoloader
     public function __construct(array $options = [])
     {
         $this->options = array_merge_recursive([
+            // we can not read the kirby options since we are loading
+            // while kirby is booting, but once spyc is removed we can
+            // default to symfony yaml
+            // TODO: maybe with a Kirby::version() check
+            'yaml.handler' => 'spyc', // spyc or symfony
             'blueprints' => [
                 'folder' => 'blueprints',
                 'name' => self::ANY_PHP_OR_YML,
@@ -146,7 +153,7 @@ final class Autoloader
         ], $options);
 
         if (! array_key_exists('dir', $this->options)) {
-            throw new \Exception('Autoloader needs a directory to start scanning at.');
+            throw new Exception('Autoloader needs a directory to start scanning at.');
         }
 
         $this->registry = [];
@@ -230,11 +237,11 @@ final class Autoloader
                 $route = require $file->getRealPath();
 
                 // check if return is actually an array (if additional stuff is specified, e.g. method or language) or returns a function
-                if (is_array($route) || $route instanceof \Closure) {
+                if (is_array($route) || $route instanceof Closure) {
                     $this->registry[$type][] = array_merge(
                         [
                             'pattern' => /*'/' . */ $pattern,
-                            'action' => $route instanceof \Closure ? $route : null,
+                            'action' => $route instanceof Closure ? $route : null,
                         ],
                         is_array($route) ? $route : []
                     );
@@ -252,7 +259,11 @@ final class Autoloader
                 $path = $file->getPathname();
                 // remove BOM
                 $yaml = str_replace("\xEF\xBB\xBF", '', file_get_contents($path));
-                $this->registry[$type][$key] = Spyc::YAMLLoadString($yaml);
+                if ($this->options['yaml.handler'] === 'symfony') {
+                    $this->registry[$type][$key] = Yaml::parse($yaml);
+                } else {
+                    $this->registry[$type][$key] = Spyc::YAMLLoadString($yaml);
+                }
             } else {
                 $this->registry[$type][$key] = $file->getRealPath();
             }
