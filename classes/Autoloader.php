@@ -317,7 +317,7 @@ final class Autoloader
         return $this->registry('blueprints');
     }
 
-    public function classes(string $folder = null): array
+    public function classes(?string $folder = null): array
     {
         if ($folder) {
             $this->options['classes']['folder'] = $folder;
@@ -432,7 +432,7 @@ final class Autoloader
      *
      * @return void
      */
-    private function load(array $classmap, string $base = null)
+    private function load(array $classmap, ?string $base = null)
     {
         // convert all classnames to lowercase
         $classmap = array_change_key_case($classmap);
