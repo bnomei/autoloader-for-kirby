@@ -183,3 +183,20 @@ test('translations', function () {
     expect($translations['en']['lang'])->toEqual('English');
     expect($translations['jp']['lang'])->toEqual('日本語');
 });
+
+it('can merge roots', function() {
+    $autoloader = autoloader($this->dir)->toArray([
+        'options' => [
+            'test' => 'Test',
+        ],
+        'blueprints' => [
+            'fields/test' => [ // <-- this must be merged
+                'type' => 'info',
+                'text' => 'Test',
+            ],
+        ],
+    ]);
+
+    expect($autoloader['blueprints']['pages/isphp'])->toBeArray();
+    expect($autoloader['blueprints']['fields/test'])->toBeArray();
+});
