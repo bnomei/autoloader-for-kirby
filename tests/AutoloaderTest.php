@@ -184,7 +184,7 @@ test('translations', function () {
     expect($translations['jp']['lang'])->toEqual('日本語');
 });
 
-it('can merge roots', function() {
+it('can merge roots', function () {
     $autoloader = autoloader($this->dir)->toArray([
         'options' => [
             'test' => 'Test',
