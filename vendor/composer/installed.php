@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'bnomei/autoloader-for-kirby',
-        'pretty_version' => '4.2.0',
-        'version' => '4.2.0.0',
+        'pretty_version' => '4.2.1',
+        'version' => '4.2.1.0',
         'reference' => null,
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
@@ -11,8 +11,8 @@
     ),
     'versions' => array(
         'bnomei/autoloader-for-kirby' => array(
-            'pretty_version' => '4.2.0',
-            'version' => '4.2.0.0',
+            'pretty_version' => '4.2.1',
+            'version' => '4.2.1.0',
             'reference' => null,
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
@@ -56,9 +56,9 @@
             'dev_requirement' => false,
         ),
         'symfony/yaml' => array(
-            'pretty_version' => 'v5.4.23',
-            'version' => '5.4.23.0',
-            'reference' => '4cd2e3ea301aadd76a4172756296fe552fb45b0b',
+            'pretty_version' => 'v6.4.0',
+            'version' => '6.4.0.0',
+            'reference' => '4f9237a1bb42455d609e6687d2613dde5b41a587',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/yaml',
             'aliases' => array(),
