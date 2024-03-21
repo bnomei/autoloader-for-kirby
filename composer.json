@@ -1,7 +1,7 @@
 {
     "name": "bnomei/autoloader-for-kirby",
     "type": "project",
-    "version": "4.1.0",
+    "version": "4.2.0",
     "license": "MIT",
     "description": "Helper to automatically load various Kirby extensions in a plugin",
     "authors": [
@@ -60,11 +60,12 @@
     },
     "require-dev": {
         "getkirby/cms": "^4.0.0-beta.2",
+        "larastan/larastan": "^2.9",
         "laravel/pint": "^1.13",
-        "nunomaduro/larastan": "^2.6",
         "pestphp/pest": "^2.24",
         "pestphp/pest-plugin-drift": "^2.5",
-        "pestphp/pest-plugin-type-coverage": "^2.4"
+        "pestphp/pest-plugin-type-coverage": "^2.4",
+        "spatie/ray": "^1.41"
     },
     "scripts": {
         "analyze": "./vendor/bin/phpstan",

@@ -33,17 +33,20 @@ test('global helper', function () {
 test('blueprints', function () {
     $autoloader = autoloader($this->dir);
     $blueprints = $autoloader->blueprints();
+    ray($blueprints)->purple();
 
     expect($blueprints)->toBeArray();
     expect($blueprints)->toHaveKey('files/touch');
     expect($blueprints)->toHaveKey('pages/default');
     expect($blueprints)->toHaveKey('pages/isphp');
     $this->assertArrayNotHasKey('page/isconf', $blueprints);
-    expect($blueprints)->toHaveKey('users/admin');
-    expect($blueprints['files/touch'])->toBeFile();
+    expect($blueprints)->toHaveKey('users/test');
+    expect($blueprints)->toHaveKey('users/dyn');
+    expect($blueprints['files/touch'])->toBeArray();
     expect($blueprints['pages/isphp'])->toBeArray();
-    expect($blueprints['pages/default'])->toBeFile();
-    expect($blueprints['users/admin'])->toBeFile();
+    expect($blueprints['pages/default'])->toBeArray();
+    expect($blueprints['users/test'])->toBeArray();
+    expect($blueprints['users/dyn'])->toBeArray();
 });
 test('classes', function () {
     $autoloader = autoloader($this->dir);

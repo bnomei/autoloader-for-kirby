@@ -59,7 +59,7 @@ final class Autoloader
                 'folder' => 'blueprints',
                 'name' => self::ANY_PHP_OR_YML,
                 'key' => 'relativepath',
-                'require' => false,
+                'require' => true, // false
                 'transform' => fn ($key) => strtolower($key),
             ],
             'classes' => [
@@ -213,6 +213,7 @@ final class Autoloader
                     }
                 }
             }
+
             if (empty($key)) {
                 continue;
             } else {
@@ -246,12 +247,16 @@ final class Autoloader
                         is_array($route) ? $route : []
                     );
                 }
-            } elseif ($options['require'] && $extension && strtolower($extension) === 'php') {
-                $path = $file->getPathname();
-                $this->registry[$type][$key] = require_once $path;
             } elseif ($options['folder'] === 'blueprints' && $extension && strtolower($extension) === 'php') {
                 $path = $file->getPathname();
-                $this->registry[$type][$key] = require_once $path;
+                $this->registry[$type][$key] = include $path; // require will link, include will read
+                if (is_array($this->registry[$type][$key])) {
+                    $kk = explode('/', $key);
+                    $this->registry[$type][$key]['name'] = array_pop($kk);
+                }
+            } elseif ($options['require'] && $extension && strtolower($extension) === 'php') {
+                $path = $file->getPathname();
+                $this->registry[$type][$key] = include $path; // require will link, include will read
             } elseif ($options['require'] && $extension && strtolower($extension) === 'json') {
                 $path = $file->getPathname();
                 $this->registry[$type][$key] = json_decode(file_get_contents($path), true);
@@ -263,6 +268,10 @@ final class Autoloader
                     $this->registry[$type][$key] = Yaml::parse($yaml);
                 } else {
                     $this->registry[$type][$key] = Spyc::YAMLLoadString($yaml);
+                }
+                if (is_array($this->registry[$type][$key]) && $options['folder'] === 'blueprints') {
+                    $kk = explode('/', $key);
+                    $this->registry[$type][$key]['name'] = array_pop($kk);
                 }
             } else {
                 $this->registry[$type][$key] = $file->getRealPath();

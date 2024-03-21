@@ -13,11 +13,7 @@ autoloader(__DIR__, [
 ]);
 
 autoloader(__DIR__)->classes();
+$a = autoloader(__DIR__)->toArray();
 
-Kirby::plugin('bnomei/example', [
-    'options' => [
-
-    ],
-    'snippets' => autoloader(__DIR__)->snippets(),
-    'templates' => autoloader(__DIR__)->templates(),
-]);
+ray($a)->red();
+Kirby::plugin('bnomei/example', $a);
