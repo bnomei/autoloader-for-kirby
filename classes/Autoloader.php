@@ -96,7 +96,7 @@ final class Autoloader
                 'name' => self::BLOCK_PHP,
                 'key' => 'classname',
                 'require' => false,
-                'transform' => fn ($key) => self::pascalToKebabCase($key),
+                'transform' => fn ($key) => lcfirst($key),
                 'map' => [],
             ],
             'pageModels' => [
