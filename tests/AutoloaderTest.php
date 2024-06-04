@@ -98,7 +98,7 @@ test('block models', function () {
     $models = $autoloader->blockModels();
 
     expect($models)->toBeArray();
-    expect($models)->toHaveKey('very-amaze');
+    expect($models)->toHaveKey('veryAmaze');
     expect($models)->toHaveKey('bloba');
     expect(class_exists('VeryAmazeBlock'))->toBeTrue();
 
