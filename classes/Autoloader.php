@@ -298,7 +298,7 @@ final class Autoloader
 
             // load blueprints from classes
             foreach ($map as $class => $file) {
-                if (!is_string($class)) {
+                if (! is_string($class)) {
                     continue;
                 }
                 // if instance of class has static method registerBlueprintExtension
