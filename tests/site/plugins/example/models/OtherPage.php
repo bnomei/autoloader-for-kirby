@@ -2,6 +2,4 @@
 
 use Kirby\Cms\Page;
 
-class OtherPage extends Page
-{
-}
+class OtherPage extends Page {}

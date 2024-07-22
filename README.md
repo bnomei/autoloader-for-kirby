@@ -2,9 +2,9 @@
 
 ![Release](https://flat.badgen.net/packagist/v/bnomei/autoloader-for-kirby?color=ae81ff)
 ![Downloads](https://flat.badgen.net/packagist/dt/bnomei/autoloader-for-kirby?color=272822)
-[![Build Status](https://flat.badgen.net/travis/bnomei/autoloader-for-kirby)](https://travis-ci.com/bnomei/autoloader-for-kirby)
+[![Coverage](https://flat.badgen.net/codeclimate/coverage/bnomei/autoloader-for-kirby)](https://codeclimate.com/github/bnomei/autoloader-for-kirby)
 [![Maintainability](https://flat.badgen.net/codeclimate/maintainability/bnomei/autoloader-for-kirby)](https://codeclimate.com/github/bnomei/autoloader-for-kirby)
-[![Twitter](https://flat.badgen.net/badge/twitter/bnomei?color=66d9ef)](https://twitter.com/bnomei)
+[![Discord](https://flat.badgen.net/badge/discord/bnomei?color=7289da)](https://discordapp.com/users/bnomei)
 
 Helper to automatically load various Kirby extensions in a plugin
 
@@ -12,7 +12,7 @@ Helper to automatically load various Kirby extensions in a plugin
 ## Commercial Usage
 
 > <br>
-><b>Support open source!</b><br><br>
+> <b>Support open source!</b><br><br>
 > This plugin is free but if you use it in a commercial project please consider to sponsor me or make a donation.<br>
 > If my work helped you to make some cash it seems fair to me that I might get a little reward as well, right?<br><br>
 > Be kind. Share a little. Thanks.<br><br>

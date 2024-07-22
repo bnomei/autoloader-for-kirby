@@ -2,6 +2,4 @@
 
 use Kirby\Cms\User;
 
-class EditorUser extends User
-{
-}
+class EditorUser extends User {}

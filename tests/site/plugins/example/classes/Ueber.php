@@ -2,6 +2,4 @@
 
 namespace Alpha\Traits;
 
-trait Ueber
-{
-}
+trait Ueber {}

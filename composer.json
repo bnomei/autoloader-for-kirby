@@ -1,7 +1,7 @@
 {
     "name": "bnomei/autoloader-for-kirby",
     "type": "project",
-    "version": "4.3.0",
+    "version": "4.3.1",
     "license": "MIT",
     "description": "Helper to automatically load various Kirby extensions in a plugin",
     "authors": [
@@ -70,7 +70,11 @@
     "scripts": {
         "analyze": "./vendor/bin/phpstan",
         "fix": "./vendor/bin/pint",
-        "coverage": "./vendor/bin/pest --type-coverage",
+        "test": "./vendor/bin/pest",
+        "coverage": [
+            "php tests/patch.php",
+            "./vendor/bin/pest --coverage"
+        ],
         "dist": [
             "composer install --no-dev --optimize-autoloader",
             "git rm -rf --cached .; git add .;"
@@ -87,6 +91,6 @@
         "kirby-cms-path": "tests/kirby"
     },
     "suggests": {
-        "bnomei/kirby3-plopfile": "Plopfile to generate and append to various files for Kirby3 CMS using Plop.js"
+        "bnomei/kirby3-plopfile": "Plopfile to generate and append to various files for Kirby CMS using Plop.js"
     }
 }

@@ -4,6 +4,4 @@ namespace SomeName;
 
 use Kirby\Cms\Page;
 
-class SomePage extends Page
-{
-}
+class SomePage extends Page {}

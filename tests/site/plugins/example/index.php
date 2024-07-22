@@ -13,7 +13,17 @@ autoloader(__DIR__, [
 ]);
 
 autoloader(__DIR__)->classes();
-$a = autoloader(__DIR__)->toArray();
+$a = autoloader(__DIR__)->toArray([
+    'options' => [
+        'test' => 'Test',
+    ],
+    'blueprints' => [
+        'fields/test' => [ // <-- this must be merged
+            'type' => 'info',
+            'text' => 'Test',
+        ],
+    ],
+]);
 
 ray($a)->red();
 Kirby::plugin('bnomei/example', $a);

@@ -1,4 +1,3 @@
 <?php
 
-return function ($page) {
-};
+return function ($page) {};
