@@ -422,7 +422,7 @@ final class Autoloader
         return array_merge_recursive($this->registry, $merge);
     }
 
-    public function pascalToKebabCase(string $string): string
+    public static function pascalToKebabCase(string $string): string
     {
         return ltrim(strtolower((string) preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '-$0', $string)), '-');
     }

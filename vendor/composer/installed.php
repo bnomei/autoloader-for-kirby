@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'bnomei/autoloader-for-kirby',
-        'pretty_version' => '4.3.2',
-        'version' => '4.3.2.0',
+        'pretty_version' => '4.3.3',
+        'version' => '4.3.3.0',
         'reference' => null,
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
@@ -11,8 +11,8 @@
     ),
     'versions' => array(
         'bnomei/autoloader-for-kirby' => array(
-            'pretty_version' => '4.3.2',
-            'version' => '4.3.2.0',
+            'pretty_version' => '4.3.3',
+            'version' => '4.3.3.0',
             'reference' => null,
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
