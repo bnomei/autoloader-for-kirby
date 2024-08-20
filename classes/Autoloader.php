@@ -177,7 +177,7 @@ final class Autoloader
         }
 
         $this->registry[$type] = [];
-        $finder = (new Finder())->files()
+        $finder = (new Finder)->files()
             ->name($options['name'])
             ->in($dir);
 
