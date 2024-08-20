@@ -1,0 +1,2 @@
+# if you want dot notation, see readme on how to change to Autoloader::pascalToDotCase()
+# if you want camel notation, see readme on how to change to Autoloader::pascalToCamelCase()

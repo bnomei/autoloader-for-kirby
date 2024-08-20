@@ -10,6 +10,8 @@ beforeEach(function () {
     $this->dir = __DIR__.'/site/plugins/example';
     $this->dir2 = __DIR__.'/site/plugins/another';
     $this->dir3 = __DIR__.'/site/plugins/routastic';
+
+    Autoloader::singletonClear(); // force reset singleton for this test
 });
 test('singleton', function () {
     // create
@@ -98,7 +100,7 @@ test('block models', function () {
     $models = $autoloader->blockModels();
 
     expect($models)->toBeArray();
-    expect($models)->toHaveKey('veryAmaze');
+    expect($models)->toHaveKey('very-amaze');
     expect($models)->toHaveKey('bloba');
     expect(class_exists('VeryAmazeBlock'))->toBeTrue();
 
@@ -182,6 +184,22 @@ test('translations', function () {
     expect($translations['de']['lang'])->toEqual('Deutsch');
     expect($translations['en']['lang'])->toEqual('English');
     expect($translations['jp']['lang'])->toEqual('日本語');
+});
+
+it('has a helper to transform the key', function () {
+    expect(Autoloader::pascalToKebabCase('SomeName'))->toBe('some-name')
+        ->and(Autoloader::pascalToCamelCase('SomeName'))->toBe('someName')
+        ->and(Autoloader::pascalToDotCase('SomeName'))->toBe('some.name');
+});
+
+it('can merge options', function () {
+    $autoloader = autoloader($this->dir, [
+        'blockModels' => [
+            'transform' => fn ($key) => md5($key),
+        ],
+    ])->toArray();
+
+    expect($autoloader['blockModels'])->toHaveKey(md5('Bloba'));
 });
 
 it('can merge roots', function () {
