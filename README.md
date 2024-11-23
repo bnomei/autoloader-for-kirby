@@ -110,7 +110,21 @@ Kirby::plugin('bnomei/example', [
 
 ## Settings
 
-The package does come with [default settings](https://github.com/bnomei/autoloader-for-kirby/blob/main/classes/Autoloader.php#L27) to fit most usecases.
+The package does come with [default settings](https://github.com/bnomei/autoloader-for-kirby/blob/main/classes/Autoloader.php#L27) to fit most usecases. But you can change them every time you call the `autoloader()`-helper for a different directory (aka in each plugin `index.php`-file).
+
+**/site/plugins/example/index.php**
+```php
+<?php
+
+Kirby::plugin('bnomei/example', autoloader(__DIR__, [
+        'blockModels' => [
+            // mapping BlockModel class names to file names, like
+            // MyCustomBlock::class => 'my.custom' (site/blueprints/blocks/my.custom.yml)
+            'transform' => fn ($key) => \Bnomei\Autoloader::pascalToDotCase($key),
+        ],
+    ])->toArray()
+);
+```
 
 ## Suggestion
 

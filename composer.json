@@ -1,7 +1,7 @@
 {
     "name": "bnomei/autoloader-for-kirby",
     "type": "project",
-    "version": "4.3.2",
+    "version": "4.4.0",
     "license": "MIT",
     "description": "Helper to automatically load various Kirby extensions in a plugin",
     "authors": [

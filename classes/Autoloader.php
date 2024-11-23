@@ -48,7 +48,7 @@ final class Autoloader
 
     public function __construct(array $options = [])
     {
-        $this->options = array_merge_recursive([
+        $this->options = self::array_merge_recursive_distinct([
             // we can not read the kirby options since we are loading
             // while kirby is booting, but once spyc is removed we can
             // default to symfony yaml
@@ -95,7 +95,7 @@ final class Autoloader
                 'name' => self::BLOCK_PHP,
                 'key' => 'classname',
                 'require' => false,
-                'transform' => fn ($key) => lcfirst($key),
+                'transform' => fn ($key) => self::pascalToKebabCase($key),
                 'map' => [],
             ],
             'pageModels' => [
@@ -177,7 +177,7 @@ final class Autoloader
         }
 
         $this->registry[$type] = [];
-        $finder = (new Finder())->files()
+        $finder = (new Finder)->files()
             ->name($options['name'])
             ->in($dir);
 
@@ -422,9 +422,39 @@ final class Autoloader
         return array_merge_recursive($this->registry, $merge);
     }
 
-    public function pascalToKebabCase(string $string): string
+    public static function pascalToKebabCase(string $string): string
     {
         return ltrim(strtolower((string) preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '-$0', $string)), '-');
+    }
+
+    public static function pascalToCamelCase(string $string): string
+    {
+        return lcfirst($string);
+    }
+
+    public static function pascalToDotCase(string $string): string
+    {
+        return ltrim(strtolower((string) preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '.$0', $string)), '.');
+    }
+
+    public static function array_merge_recursive_distinct(array $array1, array $array2)
+    {
+        $merged = $array1;
+
+        foreach ($array2 as $key => $value) {
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = self::array_merge_recursive_distinct($merged[$key], $value);
+            } else {
+                $merged[$key] = $value;
+            }
+        }
+
+        return $merged;
+    }
+
+    public static function singletonClear(): void
+    {
+        self::$singleton = null;
     }
 
     public static function singleton(array $options = []): self
