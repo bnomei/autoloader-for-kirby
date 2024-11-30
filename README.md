@@ -1,10 +1,13 @@
 # Autoloader for Kirby
 
-![Release](https://flat.badgen.net/packagist/v/bnomei/autoloader-for-kirby?color=ae81ff)
-![Downloads](https://flat.badgen.net/packagist/dt/bnomei/autoloader-for-kirby?color=272822)
-[![Coverage](https://flat.badgen.net/codeclimate/coverage/bnomei/autoloader-for-kirby)](https://codeclimate.com/github/bnomei/autoloader-for-kirby)
-[![Maintainability](https://flat.badgen.net/codeclimate/maintainability/bnomei/autoloader-for-kirby)](https://codeclimate.com/github/bnomei/autoloader-for-kirby)
-[![Discord](https://flat.badgen.net/badge/discord/bnomei?color=7289da)](https://discordapp.com/users/bnomei)
+[![Kirby 5](https://flat.badgen.net/badge/Kirby/5?color=ECC748)](https://getkirby.com)
+![PHP 8.2](https://flat.badgen.net/badge/PHP/8.2?color=4E5B93&icon=php&label)
+![Release](https://flat.badgen.net/packagist/v/bnomei/autoloader-for-kirby?color=ae81ff&icon=github&label)
+![Downloads](https://flat.badgen.net/packagist/dt/bnomei/autoloader-for-kirby?color=272822&icon=github&label)
+[![Coverage](https://flat.badgen.net/codeclimate/coverage/bnomei/autoloader-for-kirby?icon=codeclimate&label)](https://codeclimate.com/github/bnomei/autoloader-for-kirby)
+[![Maintainability](https://flat.badgen.net/codeclimate/maintainability/bnomei/autoloader-for-kirby?icon=codeclimate&label)](https://codeclimate.com/github/bnomei/autoloader-for-kirby/issues)
+[![Discord](https://flat.badgen.net/badge/discord/bnomei?color=7289da&icon=discord&label)](https://discordapp.com/users/bnomei)
+[![Buymecoffee](https://flat.badgen.net/badge/icon/donate?icon=buymeacoffee&color=FF813F&label)](https://www.buymeacoffee.com/bnomei)
 
 Helper to automatically load various Kirby extensions in a plugin
 
@@ -14,14 +17,14 @@ Helper to automatically load various Kirby extensions in a plugin
 composer require bnomei/autoloader-for-kirby
 ```
 
-## This package is NOT a kirby plugin
+## This package is NOT a Kirby plugin
 
-- This is a composer package because that actually makes it easier to setup and does not mess with the loading order of extensions.
-- Being a package it also can be used not only for local plugins but also as a composer dependency within plugins published online.
+This is a composer package because it is easier to set up and does not mess with the loading order of extensions.
+- Being a package, it can also be used not only for local plugins but also as a composer dependency within plugins published online.
 
 ### Autoloading of extensions
 
-Add the autoloader for each extension type you want once and it will register all files in subfolders correctly.
+Add the autoloader for each extension type you want once, and it will correctly register all files in subfolders.
 
 #### Supported Extensions
 
@@ -43,8 +46,8 @@ The following extensions can be autoloaded:
 
 #### Notes
 
-- Loading translations from yaml or json files is added by this package and not originally part of kirby core.
-- The `classes` autoloader is very basic. Using a custom array with kirby's `load()`-helper or composers psr-4 autoloading is recommended.
+- Loading translations from YAML or JSON files are added by this package and is not originally part of Kirby core.
+- The `classes` autoloader is very basic. It is recommended that you use a custom array with Kirby's `load()` helper or composers psr-4 autoloading.
 - The `routes` and `apiRoutes` autoloader is based on code from @tobimori and needs a file structure similar to Next.js [see examples](https://github.com/bnomei/autoloader-for-kirby/blob/main/tests/site/plugins/routastic).
 - Blueprints loaded from classes need the [kirby-blueprints](https://github.com/bnomei/kirby-blueprints) plugin
 
@@ -125,10 +128,6 @@ Kirby::plugin('bnomei/example', autoloader(__DIR__, [
     ])->toArray()
 );
 ```
-
-## Suggestion
-
-This plugin works great in combination with my [Kirby CLI Tool](https://github.com/bnomei/kirby3-plopfile) which helps you to create extension files faster.
 
 ## Disclaimer
 
