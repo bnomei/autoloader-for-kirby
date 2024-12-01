@@ -1,7 +1,7 @@
 {
     "name": "bnomei/autoloader-for-kirby",
     "type": "project",
-    "version": "4.4.0",
+    "version": "5.0.0",
     "license": "MIT",
     "description": "Helper to automatically load various Kirby extensions in a plugin",
     "authors": [
@@ -50,32 +50,27 @@
         }
     },
     "conflict": {
-        "getkirby/cms": "<4.0"
+        "getkirby/cms": "<5.0"
     },
     "require": {
         "php": ">=8.2.0",
         "mustangostang/spyc": "^0.6.3",
         "symfony/finder": "^7.0",
-        "symfony/yaml": "^6.0"
+        "symfony/yaml": "^7.0"
     },
     "require-dev": {
-        "getkirby/cms": "^4.0.0-beta.2",
-        "larastan/larastan": "^2.9",
+        "getkirby/cms": "^5.0.0-alpha.4",
+        "larastan/larastan": "^v3.0.0",
         "laravel/pint": "^1.13",
-        "pestphp/pest": "^2.24",
-        "pestphp/pest-plugin-drift": "^2.5",
-        "pestphp/pest-plugin-type-coverage": "^2.4",
-        "spatie/ray": "^1.41"
+        "pestphp/pest": "^v3.5.1",
+        "spatie/ray": "^1.39"
     },
     "scripts": {
-        "analyze": "./vendor/bin/phpstan",
+        "stan": "./vendor/bin/phpstan",
         "fix": "./vendor/bin/pint",
-        "test": "./vendor/bin/pest",
-        "coverage": [
-            "php tests/patch.php",
-            "./vendor/bin/pest --coverage"
-        ],
+        "test": "./vendor/bin/pest --profile",
         "dist": [
+            "composer fix",
             "composer install --no-dev --optimize-autoloader",
             "git rm -rf --cached .; git add .;"
         ],
@@ -84,7 +79,8 @@
             "composer update",
             "composer install --working-dir=tests/kirby --no-dev --optimize-autoloader",
             "composer update --working-dir=tests/kirby",
-            "php tests/patch.php"
+            "sed -i.bak 's/function dump(/function xdump(/g' tests/kirby/config/helpers.php",
+            "sed -i.bak 's/function e(/function xe(/g' tests/kirby/config/helpers.php"
         ]
     },
     "extra": {

@@ -437,7 +437,7 @@ final class Autoloader
         return ltrim(strtolower((string) preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '.$0', $string)), '.');
     }
 
-    public static function array_merge_recursive_distinct(array $array1, array $array2)
+    public static function array_merge_recursive_distinct(array $array1, array $array2): array
     {
         $merged = $array1;
 
