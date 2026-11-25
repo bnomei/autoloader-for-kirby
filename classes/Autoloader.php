@@ -240,7 +240,7 @@ final class Autoloader
                 if (is_array($route) || $route instanceof Closure) {
                     $this->registry[$type][] = array_merge(
                         [
-                            'pattern' => /*'/' . */ $pattern,
+                            'pattern' => /* '/' . */ $pattern,
                             'action' => $route instanceof Closure ? $route : null,
                         ],
                         is_array($route) ? $route : []

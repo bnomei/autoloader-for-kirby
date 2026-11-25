@@ -1,7 +1,7 @@
 {
     "name": "bnomei/autoloader-for-kirby",
     "type": "project",
-    "version": "5.0.0",
+    "version": "6.0.0",
     "license": "MIT",
     "description": "Helper to automatically load various Kirby extensions in a plugin",
     "authors": [
@@ -84,7 +84,10 @@
         ]
     },
     "extra": {
-        "kirby-cms-path": "tests/kirby"
+        "kirby-cms-path": "tests/kirby",
+        "kirby": {
+            "compatible": "^5.0 || ^6.0"
+        }
     },
     "suggests": {
         "bnomei/kirby3-plopfile": "Plopfile to generate and append to various files for Kirby CMS using Plop.js"
