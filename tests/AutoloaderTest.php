@@ -162,7 +162,7 @@ test('snippets', function () {
     expect($snippets)->toBeArray();
     expect($snippets)->toHaveKey('snippet1');
 
-    //$this->assertArrayNotHasKey('snippet1.config', $snippets);
+    // $this->assertArrayNotHasKey('snippet1.config', $snippets);
     expect($snippets)->toHaveKey('sub/snippet2');
     expect($snippets['snippet1'])->toBeFile();
     expect($snippets['sub/snippet2'])->toBeFile();

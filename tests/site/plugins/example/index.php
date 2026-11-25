@@ -4,12 +4,13 @@
 // the classes and helpers will be available from composer autoload in a production setup.
 @include_once __DIR__.'/../../../vendor/autoload.php';
 
+use Bnomei\Autoloader;
 use Kirby\Cms\App as Kirby;
 
 // disallow additional dots for testcases
 autoloader(__DIR__, [
-    'blueprints' => ['name' => \Bnomei\Autoloader::PHP_OR_YML],
-    'snippets' => ['name' => \Bnomei\Autoloader::PHP_OR_HTMLPHP],
+    'blueprints' => ['name' => Autoloader::PHP_OR_YML],
+    'snippets' => ['name' => Autoloader::PHP_OR_HTMLPHP],
 ]);
 
 autoloader(__DIR__)->classes();
